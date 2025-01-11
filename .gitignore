@@ -1,6 +1,10 @@
 .DS_STORE
 
-/dist/
+/dist/*
+*/dist/*
+dist/*
+/dist
+frontend/dist/
 /bazel-out
 /integration/bazel/bazel-*
 *.log
@@ -56,3 +60,5 @@ baseline.json
 
 # Ignore cache created with the Angular CLI.
 .angular/
+/frontend/dist/
+/frontend/dist/

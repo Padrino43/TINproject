@@ -1,4 +1,4 @@
-<div class="client-form-wrapper mt-3 bg-dark">
+<div class="client-form-wrapper">
   <h2>Dodaj nowe zawody:</h2>
   <form [formGroup]="contestForm" (ngSubmit)="onAddContest()">
     <div>
@@ -8,23 +8,51 @@
         <mat-error *ngIf="controls.name.invalid">{{ getErrorMessage(controls.name) }}</mat-error>
       </mat-form-field>
     </div>
-<!--    <div>-->
-<!--      <mat-form-field>-->
-<!--        <mat-label>Data</mat-label>-->
-<!--        <input matInput [matDatepicker]="datepicker" [(ngModel)]="value">-->
-<!--        <mat-datepicker #datepicker/>-->
-<!--        <mat-datepicker-toggle [for]="datepicker" matSuffix/>-->
-<!--      </mat-form-field>-->
+    <div>
+      <mat-form-field>
+        <mat-label>Data rozpoczęcia</mat-label>
+        <input matInput formControlName="dateStart" [matDatepicker]="startDatePicker">
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        <mat-datepicker-toggle [for]="startDatePicker" matSuffix></mat-datepicker-toggle>
+        <mat-error *ngIf="controls.dateStart.invalid">{{ getErrorMessage(controls.dateStart) }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Godzina rozpoczęcia</mat-label>
+        <input matInput
+               formControlName="timeStart"
+               [matTimepicker]="startTimePicker">
+        <mat-timepicker #startTimePicker></mat-timepicker>
+        <mat-timepicker-toggle [for]="startTimePicker" matSuffix></mat-timepicker-toggle>
+        <mat-error *ngIf="controls.timeStart.invalid">{{ getErrorMessage(controls.timeStart) }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Data zakończenia</mat-label>
+        <input matInput formControlName="dateFinish" [matDatepicker]="endDatePicker">
+        <mat-datepicker #endDatePicker></mat-datepicker>
+        <mat-datepicker-toggle [for]="endDatePicker" matSuffix></mat-datepicker-toggle>
+        <mat-error *ngIf="controls.dateFinish.invalid">{{ getErrorMessage(controls.dateFinish) }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Godzina zakończenia</mat-label>
+        <input matInput
+               formControlName="timeFinish"
+               [matTimepicker]="endTimePicker">
+        <mat-timepicker #endTimePicker></mat-timepicker>
+        <mat-timepicker-toggle [for]="endTimePicker" matSuffix></mat-timepicker-toggle>
+        <mat-error *ngIf="controls.timeFinish.invalid">{{ getErrorMessage(controls.timeFinish) }}</mat-error>
+      </mat-form-field>
+    </div>
 
-<!--      <mat-label>Godzina rozpoczęcia</mat-label>-->
-<!--      <input type="time" id="timeFrom" name="timeFrom" min="09:00" max="22:00" required />-->
-<!--      <mat-label>Godzina zakończenia</mat-label>-->
-<!--      <input type="time" id="timeTo" name="timeTo" min="09:00" max="22:00" required />-->
-<!--    </div>-->
 
     <div class="d-flex justify-content-end">
       <button *ngIf="editMode" mat-raised-button color="warn" (click)="emitCloseDialog()" type="button">Anuluj</button>
-      <button mat-raised-button color="primary" class="mx-1" type="submit" [disabled]="contestForm.invalid">{{ editMode ? 'Edytuj klienta' : 'Dodaj nowego klienta' }}</button>
+      <button mat-raised-button color="primary" class="mx-1" type="submit" [disabled]="contestForm.invalid">{{ editMode ? 'Edytuj zawody' : 'Dodaj nowe zawody' }}</button>
     </div>
     <app-alert *ngIf="errorMessage" [text]="errorMessage"></app-alert>
   </form>

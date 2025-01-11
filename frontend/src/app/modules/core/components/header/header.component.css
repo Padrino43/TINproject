@@ -4,7 +4,7 @@ mat-toolbar {
     rgba(168, 168, 168, 1) 5%,
     rgba(126, 126, 126, 1) 15%,
     rgba(28, 28, 28, 1) 25%,
-    rgba(0, 0, 0, 1) 35%);
+    rgba(10, 10, 10, 1) 35%);
 }
 button.log {
   background-color: rgba(126, 126, 126, 0.73);

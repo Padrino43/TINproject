@@ -11,6 +11,8 @@ import {NgIf} from '@angular/common';
 import {MatInput, MatInputModule} from '@angular/material/input';
 import {MatError, MatFormField, MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from "@angular/material/timepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @Component({
   selector: 'app-contest-form',
@@ -30,12 +32,19 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     MatInputModule,
     MatDatepickerModule,
     FormsModule,
+    MatTimepickerInput,
+    MatTimepicker,
+    MatTimepickerToggle,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
+  providers: [
+    MatDatepickerModule,
+  ]
 })
 export class ContestFormComponent implements OnInit {
   contestForm!: FormGroup<PostContestForm>;
   errorMessage = '';
-  value: any;
   @Input() editMode = false;
   @Input() contest!: Contest;
   @Output() closeDialog = new EventEmitter<void>();
@@ -72,14 +81,23 @@ export class ContestFormComponent implements OnInit {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      start: new FormControl(this.editMode ? this.contest.start : '', {
+      dateStart: new FormControl(this.editMode ? this.contest.start : '', {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      finish: new FormControl(this.editMode ? this.contest.finish : '', {
+      timeStart: new FormControl(this.editMode ? this.contest.start : '', {
         nonNullable: true,
         validators: [Validators.required],
       }),
+      dateFinish: new FormControl(this.editMode ? this.contest.start : '', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      timeFinish: new FormControl(this.editMode ? this.contest.start : '', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+
     });
 
   }

@@ -4,9 +4,9 @@ import {
   MatCell,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderRow,
+  MatHeaderRow, MatHeaderRowDef,
   MatNoDataRow,
-  MatRow,
+  MatRow, MatRowDef,
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
