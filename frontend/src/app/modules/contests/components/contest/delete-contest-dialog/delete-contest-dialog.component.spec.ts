@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteContestDialogComponent } from './delete-contest-dialog.component';
 
-describe('DeleteClientDialogComponent', () => {
+describe('DeleteContestDialogComponent', () => {
   let component: DeleteContestDialogComponent;
   let fixture: ComponentFixture<DeleteContestDialogComponent>;
 

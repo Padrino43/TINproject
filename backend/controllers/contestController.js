@@ -6,7 +6,7 @@ async function getContest(id) {
     try {
         const [results] = await db.query(
             'SELECT * FROM `Contests` WHERE `id` = ?', [id]);
-        return (results.length === 0)? {} : results;
+        return (results.length === 0)? [] : results;
     } catch (err) {
         console.log(err);
     } finally {
@@ -50,17 +50,41 @@ async function getContests(req) {
     }
 }
 async function postContest(args) {
-    const {name: nameC, start: startC, finish: finishC }= args;
-    let lastId = await getContests()
-        .then(data => {
-            return data.sort((a, b) => b.id - a.id)[0].id;
-        });
+    const {name: nameC, startAt: startC, finishAt: finishC }= args;
+
+    const db = await mysql.createConnection(mySqlCredentials);
+    const [total] = await db.query('SELECT * FROM `Contests`');
+    let lastId = total
+        .sort((a, b) => b.id - a.id)[0].id;
     lastId = lastId + 1;
+    try {
+        await db.query('INSERT INTO Contests(id,name,startAt,finishAt) VALUES (?,?,?,?)', [lastId,nameC,startC,finishC]);
+        return await getContest(lastId);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await db.end();
+    }
+}
+async function editContest(id, body) {
+    const {name: nameC, startAt: startC, finishAt: finishC } = body;
+
     const db = await mysql.createConnection(mySqlCredentials);
     try {
-        const [ results ] =
-            await db.query('INSERT INTO Contests(id,name,startAt,finishAt) VALUES (?,?,?,?)', [lastId,nameC,startC,finishC]);
-        return await getContest(results.insertId)
+    const [total] = await db.query('UPDATE Contests SET name=?,startAt=?,finishAt=? WHERE id=?',
+        [nameC, startC, finishC, id]);
+        console.log(total);
+    return await getContest(id);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await db.end();
+    }
+}
+async function deleteContest(id) {
+    const db = await mysql.createConnection(mySqlCredentials);
+    try {
+        const [result] = await db.query('DELETE FROM Contests WHERE id=?', [id]);
     } catch (err) {
         console.log(err);
     } finally {
@@ -71,4 +95,4 @@ async function postContest(args) {
 
 
 
-module.exports = { getContest, getContests, postContest };
+module.exports = { getContest, getContests, postContest, editContest, deleteContest };

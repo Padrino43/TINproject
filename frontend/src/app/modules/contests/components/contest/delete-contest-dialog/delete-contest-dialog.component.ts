@@ -28,7 +28,7 @@ export class DeleteContestDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<DeleteContestDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: { contest: Contest },
-    private clientsService: ContestService,
+    private contestService: ContestService,
     private router: Router,
   ) {}
 
@@ -37,7 +37,7 @@ export class DeleteContestDialogComponent implements OnInit {
   }
 
   onDelete() {
-    this.clientsService.deleteClient(this.contest.id).subscribe({
+    this.contestService.deleteClient(this.contest.id).subscribe({
       next: () => {
         this.dialogRef.close();
         this.router.navigate(['/contests']);

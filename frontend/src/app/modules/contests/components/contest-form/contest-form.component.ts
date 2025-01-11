@@ -102,13 +102,13 @@ export class ContestFormComponent implements OnInit {
   onAddContest() {
     if (this.editMode) {
       this.contestService
-        .putClient(this.contestForm.getRawValue(), this.contest.id)
+        .putContest(this.contestForm.getRawValue(), this.contest.id)
         .subscribe(this.observer);
       return;
     }
 
     this.contestService
-      .postClient(this.contestForm.getRawValue())
+      .postContest(this.contestForm.getRawValue())
       .subscribe(this.observer);
   }
 

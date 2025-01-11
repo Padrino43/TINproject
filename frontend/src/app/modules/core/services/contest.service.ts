@@ -77,6 +77,7 @@ export class ContestService {
       .pipe(
         map(
           ({ id, name, startAt, finishAt }) => {
+            console.log({ id, name, startAt, finishAt } );
             let [date, fromTime] = startAt.split('T');
             let [fromHours, fromMinutes] = fromTime.split(':');
             startAt = `${fromHours}:${fromMinutes}`;
@@ -95,9 +96,20 @@ export class ContestService {
       );
   }
 
-  postClient(clientData: PostContest): Observable<Contest> {
+  postContest(contestData: PostContest): Observable<Contest> {
+    const s = new Date(contestData.startAt);
+    const f = new Date(contestData.finishAt);
+    const oldDate = new Date(contestData.date);
+    const date = oldDate.getFullYear() + '-' + (oldDate.getMonth() + 1) + '-' + s.getDate();
+    let startAt = date + ' ' + s.getHours() + ':' + s.getMinutes();
+    let finishAt = date + ' ' + f.getHours() + ':' + f.getMinutes();
+    const modifiedData = {
+      name: contestData.name,
+      startAt: startAt,
+      finishAt: finishAt
+    }
     return this.http
-      .post<ContestResponse>(`${this.apiUrl}/contests`, clientData)
+      .post<ContestResponse>(`${this.apiUrl}/contests`, modifiedData)
       .pipe(
         map(
           ({ id, name, startAt, finishAt }) => {
@@ -125,9 +137,20 @@ export class ContestService {
     );
   }
 
-  putClient(clientData: PostContest, id: number): Observable<Contest> {
+  putContest(contestData: PostContest, id: number): Observable<Contest> {
+    const s = new Date(contestData.startAt);
+    const f = new Date(contestData.finishAt);
+    const oldDate = new Date(contestData.date);
+    const date = oldDate.getFullYear() + '-' + (oldDate.getMonth() + 1) + '-' + s.getDate();
+    let startAt = date + ' ' + s.getHours() + ':' + s.getMinutes();
+    let finishAt = date + ' ' + f.getHours() + ':' + f.getMinutes();
+    const modifiedData = {
+      name: contestData.name,
+      startAt: startAt,
+      finishAt: finishAt
+    }
     return this.http
-      .put<ContestResponse>(`${this.apiUrl}/contests/${id}`, clientData)
+      .put<ContestResponse>(`${this.apiUrl}/contests/${id}`, modifiedData)
       .pipe(
         map(
           ({ id, name, startAt, finishAt }) => {

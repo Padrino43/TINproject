@@ -57,6 +57,7 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
     'date',
     'startAt',
     'finishAt',
+    'buttons',
   ];
   dataSource!: MatTableDataSource<Contest>;
   totalCount = 0;
@@ -65,7 +66,7 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private clientService: ContestService) {}
+  constructor(private contestService: ContestService) {}
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -80,7 +81,7 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
             const sortDirection = this.sort.direction;
             const sortColumnName = this.sort.active;
 
-            return this.clientService.getContests(
+            return this.contestService.getContests(
               pageIndex,
               itemsPerPage,
               sortDirection,
@@ -89,12 +90,12 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
           }),
           map((data) => {
             this.totalCount = data.totalCount;
+
             return data.contests;
           }),
         )
-        .subscribe((clients) => {
-          console.log(clients)
-          this.dataSource = new MatTableDataSource<Contest>(clients);
+        .subscribe((contests) => {
+          this.dataSource = new MatTableDataSource<Contest>(contests);
         }),
     );
 
@@ -114,7 +115,7 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
     const sortDirection = this.sort.direction;
     const sortColumnName = this.sort.active;
 
-    this.clientService
+    this.contestService
       .getContests(pageIndex, itemsPerPage, sortDirection, sortColumnName, val)
       .subscribe({
         next: (response) => {

@@ -1,0 +1,14 @@
+<div class="contest-content" *ngIf="contest">
+  <h2>{{ contest.name }} {{ contest.date }} {{ contest.startAt }} {{ contest.finishAt }}</h2>
+
+  <div class="buttons-spacing">
+  <div>
+    <p>Edytuj zawody</p>
+    <button mat-raised-button color="primary" (click)="openEditDialog()">Edytuj</button>
+  </div>
+  <div>
+    <p>Usuń zawody</p>
+    <button mat-raised-button color="warn" (click)="openDeleteDialog()">Usuń</button>
+  </div>
+  </div>
+</div>

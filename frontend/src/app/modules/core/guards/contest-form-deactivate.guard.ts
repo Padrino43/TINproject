@@ -3,7 +3,7 @@ import {
   CanDeactivateFn,
   RouterStateSnapshot,
 } from '@angular/router';
-import { ContestFormComponent } from '../../clients/components/contest-form/contest-form.component';
+import { ContestFormComponent } from '../../contests/components/contest-form/contest-form.component';
 
 export const contestFormDeactivateGuard: CanDeactivateFn<ContestFormComponent> = (
   component: ContestFormComponent,

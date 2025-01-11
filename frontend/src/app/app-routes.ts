@@ -10,7 +10,7 @@ export const APP_ROUTES: Routes = [
   {
     path: 'contests',
     loadChildren: () =>
-      import('./modules/clients/routes').then((m) => m.ROUTES_CLIENTS),
+      import('./modules/contests/routes').then((m) => m.ROUTES_CONTESTS),
     canLoad: [authLoadGuard],
   },
 ];

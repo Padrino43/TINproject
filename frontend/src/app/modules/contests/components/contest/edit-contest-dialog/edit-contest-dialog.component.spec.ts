@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditContestDialogComponent } from './edit-contest-dialog.component';
 
-describe('EditClientDialogComponent', () => {
+describe('EditContestDialogComponent', () => {
   let component: EditContestDialogComponent;
   let fixture: ComponentFixture<EditContestDialogComponent>;
 

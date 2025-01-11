@@ -4,7 +4,7 @@ import { ContestComponent } from './components/contest/contest.component';
 import { ContestFormComponent } from './components/contest-form/contest-form.component';
 import { contestFormDeactivateGuard } from '../core/guards/contest-form-deactivate.guard';
 
-export const ROUTES_CLIENTS: Routes = [
+export const ROUTES_CONTESTS: Routes = [
   {
     path: '',
     component: ContestsComponent,

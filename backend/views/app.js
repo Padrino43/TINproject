@@ -2,8 +2,8 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const cors = require('cors');
 const express = require('express');
-const { getContest, getContests, getContestsAllInfo, getContestAllInfo, postContest} = require("../controllers/contestController");
-const {getUsers} = require("../controllers/userController");
+const { getContest, getContests, getContestsAllInfo, getContestAllInfo, postContest, deleteContest, editContest} = require("../controllers/contestController");
+const {getUsers, addUser} = require("../controllers/userController");
 const app = express();
 
 
@@ -25,18 +25,43 @@ app.use(cors({
 // }
 
 
+
 app.get("/contests", async (req, res) => {
     let [contests, total]  = await getContests(req);
     res.header('X-Total-Count', total);
     res.json(contests);
 });
-app.get("/users", async (req, res) => {
-    let users  = await getUsers();
-    res.json(users);
+app.get("/contests/:id", async (req, res) => {
+    let { id }  = req.params;
+    let [contest]  = await getContest(id);
+    res.json(contest);
 });
 app.post("/contests", async (req, res) => {
     let contest  = await postContest(req.body);
     res.send(contest);
+});
+app.put("/contests/:id", async (req, res) => {
+    let { id }  = req.params;
+    let [contest]  = await editContest(id, req.body);
+    res.json(contest);
+});
+app.delete("/contests/:id", async (req, res) => {
+    let { id }  = req.params;
+    let contest  = await deleteContest(id);
+});
+
+
+
+
+
+
+app.get("/users", async (req, res) => {
+    let users  = await getUsers();
+    res.json(users);
+});
+app.post("/users", async (req, res) => {
+    let user  = await addUser(req.body);
+    res.json(user);
 });
 // app.get("/gunrange/new", async (req, res) => {
 //   res.render('addGun');

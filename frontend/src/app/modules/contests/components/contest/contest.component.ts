@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { Contest } from '../../../core/models/contest.model';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { DeleteContestDialogComponent } from './delete-client-dialog/delete-contest-dialog.component';
-import { EditContestDialogComponent } from './edit-client-dialog/edit-contest-dialog.component';
+import { DeleteContestDialogComponent } from './delete-contest-dialog/delete-contest-dialog.component';
+import { EditContestDialogComponent } from './edit-contest-dialog/edit-contest-dialog.component';
 import { MatButton } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 
@@ -19,14 +19,14 @@ import { NgIf } from '@angular/common';
 export class ContestComponent implements OnInit {
   contest!: Contest;
   constructor(
-    private clientService: ContestService,
+    private contestService: ContestService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this.route.params
-      .pipe(switchMap((params) => this.clientService.getContest(+params['id'])))
+      .pipe(switchMap((params) => this.contestService.getContest(+params['id'])))
       .subscribe({
         next: (contest) => {
           this.contest = contest;
@@ -47,8 +47,10 @@ export class ContestComponent implements OnInit {
       data: {
         contest: this.contest,
       },
+
       width: '600px',
       maxWidth: '600px',
+      height: '600px'
     });
   }
 }

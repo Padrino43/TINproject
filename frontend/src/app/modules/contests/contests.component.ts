@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ContestTableComponent } from './components/contest-table/contest-table.component';
 
 @Component({
-    selector: 'app-clients',
+    selector: 'app-contests',
     templateUrl: './contests.component.html',
     styleUrl: './contests.component.css',
     standalone: true,

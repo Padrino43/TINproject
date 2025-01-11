@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 import { Contest } from '../../../../core/models/contest.model';
-import { DeleteContestDialogComponent } from '../delete-client-dialog/delete-contest-dialog.component';
+import { DeleteContestDialogComponent } from '../delete-contest-dialog/delete-contest-dialog.component';
 import { ContestFormComponent } from '../../contest-form/contest-form.component';
 
 @Component({
