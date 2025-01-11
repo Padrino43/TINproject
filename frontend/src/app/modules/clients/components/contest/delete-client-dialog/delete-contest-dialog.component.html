@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Czy chcesz usunąć zawody?</h1>
+<mat-dialog-content>
+  <p>Imię i nazwisko:</p>
+  <p>{{ contest.name }} {{ contest.start }} {{ contest.finish }}</p>
+  <app-alert *ngIf="errorMessage"> {{ errorMessage }}</app-alert>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button color="primary" mat-button mat-dialog-close>Anuluj</button>
+  <button color="warn" mat-button (click)="onDelete()" cdkFocusInitial>Usuń</button>
+</mat-dialog-actions>

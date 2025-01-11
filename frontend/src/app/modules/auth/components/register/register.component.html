@@ -1,0 +1,26 @@
+<div class="register-wrapper mt-3">
+  <h2>Zarejestruj się:</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="test@gmail.com" formControlName="email">
+        <mat-error *ngIf="controls.email.invalid">{{ getErrorMessage(controls.email) }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Hasło</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <mat-error *ngIf="controls.password.invalid">{{ getErrorMessage(controls.password) }}</mat-error>
+        <button mat-icon-button type="button" matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">Zarejestruj się</button>
+    </div>
+  </form>
+  <app-alert *ngIf="errorMessage" [text]="errorMessage"></app-alert>
+</div>

@@ -1,0 +1,13 @@
+<nav>
+  <mat-toolbar color="primary">
+    <span>PJSS</span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/">Strona główna</button>
+    <button mat-button routerLink="/contests">Zawody</button>
+    <button mat-button routerLink="/contestants">Zawodnicy</button>
+    <button mat-button routerLink="/contests/add" *ngIf="user">Dodaj zawody</button>
+    <button mat-button routerLink="/contestants/add" *ngIf="user">Dodaj zawodnika</button>
+    <button class="log" mat-button routerLink="/login" *ngIf="!user">Zaloguj</button>
+    <button class="log" mat-button (click)="logout()" *ngIf="user">Wyloguj się</button>
+  </mat-toolbar>
+</nav>

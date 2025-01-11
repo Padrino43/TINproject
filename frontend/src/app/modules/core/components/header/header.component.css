@@ -1,0 +1,18 @@
+mat-toolbar {
+  background: #151515 linear-gradient(
+    180deg, rgba(224, 224, 224, 1) 1%,
+    rgba(168, 168, 168, 1) 5%,
+    rgba(126, 126, 126, 1) 15%,
+    rgba(28, 28, 28, 1) 25%,
+    rgba(0, 0, 0, 1) 35%);
+}
+button.log {
+  background-color: rgba(126, 126, 126, 0.73);
+  color: #000000FF;
+}
+.log:hover {
+  background-color: #7e7e7e;
+}
+.spacer {
+  flex: 1 1 auto;
+}
