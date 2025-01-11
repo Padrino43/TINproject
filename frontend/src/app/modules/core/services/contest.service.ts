@@ -23,24 +23,24 @@ export class ContestService {
     sortColumnName: string,
     value = '',
   ): Observable<GetContestResponse> {
-    // let params = new HttpParams()
-    //   .append('_page', pageIndex)
-    //   .append('_limit', itemsPerPage);
-    //
-    // if (sortColumnName) {
-    //   params = params
-    //     .append('_sort', sortColumnName)
-    //     .append('_order', sortDirection);
-    // }
-    //
-    // if (value) {
-    //   params = params.append('firstname_like', value);
-    // }
+    let params = new HttpParams()
+      .append('_page', pageIndex)
+      .append('_limit', itemsPerPage);
+
+    if (sortColumnName) {
+      params = params
+        .append('_sort', sortColumnName)
+        .append('_order', sortDirection);
+    }
+
+    if (value) {
+      params = params.append('name_like', value);
+    }
 
     return this.http
       .get<ContestResponse[]>(`${this.apiUrl}/contests`, {
         observe: 'response',
-        // params,
+        params,
       })
       .pipe(
         map((response) => {
@@ -55,6 +55,7 @@ export class ContestService {
               return new Contest(
                 id,
                 name,
+                date,
                 start,
                 finish
               );
@@ -81,6 +82,7 @@ export class ContestService {
             return new Contest(
               id,
               name,
+              date,
               start,
               finish
             );
@@ -102,6 +104,7 @@ export class ContestService {
             return new Contest(
               id,
               name,
+              date,
               start,
               finish
             );
@@ -129,6 +132,7 @@ export class ContestService {
             return new Contest(
               id,
               name,
+              date,
               start,
               finish
             );

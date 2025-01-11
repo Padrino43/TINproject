@@ -10,11 +10,11 @@
     </div>
     <div>
       <mat-form-field>
-        <mat-label>Data rozpoczęcia</mat-label>
-        <input matInput formControlName="dateStart" [matDatepicker]="startDatePicker">
-        <mat-datepicker #startDatePicker></mat-datepicker>
-        <mat-datepicker-toggle [for]="startDatePicker" matSuffix></mat-datepicker-toggle>
-        <mat-error *ngIf="controls.dateStart.invalid">{{ getErrorMessage(controls.dateStart) }}</mat-error>
+        <mat-label>Data</mat-label>
+        <input matInput formControlName="date" [matDatepicker]="datePicker">
+        <mat-datepicker #datePicker></mat-datepicker>
+        <mat-datepicker-toggle [for]="datePicker" matSuffix></mat-datepicker-toggle>
+        <mat-error *ngIf="controls.date.invalid">{{ getErrorMessage(controls.date) }}</mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -22,7 +22,9 @@
         <mat-label>Godzina rozpoczęcia</mat-label>
         <input matInput
                formControlName="timeStart"
-               [matTimepicker]="startTimePicker">
+               [matTimepicker]="startTimePicker"
+               matTimepickerMin="10:00"
+               matTimepickerMax="22:00">
         <mat-timepicker #startTimePicker></mat-timepicker>
         <mat-timepicker-toggle [for]="startTimePicker" matSuffix></mat-timepicker-toggle>
         <mat-error *ngIf="controls.timeStart.invalid">{{ getErrorMessage(controls.timeStart) }}</mat-error>
@@ -30,19 +32,13 @@
     </div>
     <div>
       <mat-form-field>
-        <mat-label>Data zakończenia</mat-label>
-        <input matInput formControlName="dateFinish" [matDatepicker]="endDatePicker">
-        <mat-datepicker #endDatePicker></mat-datepicker>
-        <mat-datepicker-toggle [for]="endDatePicker" matSuffix></mat-datepicker-toggle>
-        <mat-error *ngIf="controls.dateFinish.invalid">{{ getErrorMessage(controls.dateFinish) }}</mat-error>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field>
         <mat-label>Godzina zakończenia</mat-label>
         <input matInput
                formControlName="timeFinish"
-               [matTimepicker]="endTimePicker">
+               [matTimepicker]="endTimePicker"
+               matTimepickerMin="11:00"
+               matTimepickerMax="23:00"
+        >
         <mat-timepicker #endTimePicker></mat-timepicker>
         <mat-timepicker-toggle [for]="endTimePicker" matSuffix></mat-timepicker-toggle>
         <mat-error *ngIf="controls.timeFinish.invalid">{{ getErrorMessage(controls.timeFinish) }}</mat-error>

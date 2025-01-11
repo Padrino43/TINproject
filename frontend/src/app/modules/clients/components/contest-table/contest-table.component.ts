@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, OnDestroy, ViewChild} from '@angular/core';
 import {ContestService} from '../../../core/services/contest.service';
 import {
-  MatCell,
+  MatCell, MatCellDef,
   MatColumnDef,
-  MatHeaderCell,
+  MatHeaderCell, MatHeaderCellDef,
   MatHeaderRow, MatHeaderRowDef,
   MatNoDataRow,
   MatRow, MatRowDef,
@@ -44,15 +44,19 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
     HighlightDirective,
     MatNoDataRow,
     MatPaginator,
+    MatCellDef,
+    MatHeaderCellDef,
+    MatHeaderRowDef,
+    MatRowDef,
   ],
 })
 export class ContestTableComponent implements AfterViewInit, OnDestroy {
   displayedColumns: string[] = [
     'lp',
-    'nazwa',
-    'data',
-    'od',
-    'do',
+    'name',
+    'date',
+    'start',
+    'finish',
   ];
   dataSource!: MatTableDataSource<Contest>;
   totalCount = 0;

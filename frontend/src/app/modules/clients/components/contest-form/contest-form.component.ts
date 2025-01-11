@@ -79,9 +79,12 @@ export class ContestFormComponent implements OnInit {
     this.contestForm = new FormGroup({
       name: new FormControl(this.editMode ? this.contest.name : '', {
         nonNullable: true,
-        validators: [Validators.required],
+        validators: [
+          Validators.minLength(5),
+          Validators.maxLength(50),
+          Validators.required],
       }),
-      dateStart: new FormControl(this.editMode ? this.contest.start : '', {
+      date: new FormControl(this.editMode ? this.contest.start : '', {
         nonNullable: true,
         validators: [Validators.required],
       }),
@@ -89,17 +92,11 @@ export class ContestFormComponent implements OnInit {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      dateFinish: new FormControl(this.editMode ? this.contest.start : '', {
-        nonNullable: true,
-        validators: [Validators.required],
-      }),
       timeFinish: new FormControl(this.editMode ? this.contest.start : '', {
         nonNullable: true,
         validators: [Validators.required],
       }),
-
     });
-
   }
 
   onAddContest() {

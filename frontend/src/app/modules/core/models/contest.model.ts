@@ -9,9 +9,8 @@ export interface ContestResponse {
 export interface PostResponse {
   id: number;
   name: string;
-  dateStart: string;
+  date: string;
   timeStart: string;
-  dateFinish: string;
   timeFinish: string;
 }
 
@@ -21,6 +20,7 @@ export class Contest implements ContestResponse {
   constructor(
     public id: number,
     public name: string,
+    public date: string,
     public start: string,
     public finish: string
   ) {}
@@ -33,8 +33,7 @@ export interface GetContestResponse {
 
 export interface PostContestForm {
   name: FormControl<string>;
-  dateStart: FormControl<string>;
+  date: FormControl<string>;
   timeStart: FormControl<string>;
-  dateFinish: FormControl<string>;
   timeFinish: FormControl<string>;
 }

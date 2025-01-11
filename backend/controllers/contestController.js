@@ -6,23 +6,52 @@ async function getContest(id) {
     try {
         const [results] = await db.query(
             'SELECT * FROM `Contests` WHERE `Id` = ?', [id]);
-        return (results.length === 0)? null : results;
+        return (results.length === 0)? {} : results;
     } catch (err) {
         console.log(err);
     } finally {
-        db.end();
+        await db.end();
     }
 }
 
-async function getContests() {
+async function getContests(req) {
+    const { _page, _limit, _sort, _order, name_like } = req.query;
+
+    // Przekształć _page i _limit na liczby
+    const page = parseInt(_page) || 1;
+    const limit = parseInt(_limit) || 10;
+    const offset = (page - 1) * limit;
+
+    // Zabezpieczenie przed wstrzykiwaniem danych: Lista dozwolonych kolumn
+    const allowedSortColumns = ['name', 'start', 'finish'];
+    const sortColumn = allowedSortColumns.includes(_sort) ? _sort : 'name';
+    const sortDirection = _order === 'desc' ? 'DESC' : 'ASC';
+
+    // Budowanie zapytania SQL
+    let sql = 'SELECT id, name, start, finish FROM Contests WHERE 1=1';
+
+    // Dodanie filtra po firstname_like
+    const queryParams = [];
+    if (name_like) {
+        sql += ` AND name LIKE ?`;
+        queryParams.push(`%${name_like}%`); // Wartość LIKE z wildcards
+    }
+
+    // Dodanie sortowania
+    sql += ` ORDER BY ${sortColumn} ${sortDirection}`;
+
+    // Dodanie limitu i offsetu
+    sql += ` LIMIT ${limit} OFFSET ${offset}`;
+
     const db = await mysql.createConnection(mySqlCredentials);
     try {
-        const [results] = await db.query('SELECT id,name,start,finish FROM `Contests`');
-        return (results.length === 0)? null : results;
-    } catch (err) {
-        console.log(err);
+        const [results] = await db.query(sql, queryParams);
+        return results;
+    } catch (error) {
+        console.log(error);
+        return {};
     } finally {
-        db.end();
+        await db.end();
     }
 }
 async function postContest(args) {
@@ -40,7 +69,7 @@ async function postContest(args) {
     } catch (err) {
         console.log(err);
     } finally {
-        db.end();
+        await db.end();
     }
 }
 

@@ -37,7 +37,8 @@ app.use(cors({
 
 
 app.get("/contests", async (req, res) => {
-    let contests  = await getContests();
+    let contests  = await getContests(req);
+    res.setHeader('X-Total-Count', contests.length);
     res.json(contests);
 });
 app.get("/users", async (req, res) => {

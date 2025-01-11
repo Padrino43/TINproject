@@ -15,6 +15,7 @@ import {
   provideRouter,
   withPreloading,
 } from '@angular/router';
+import {MAT_DATE_LOCALE} from "@angular/material/core";
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -25,5 +26,6 @@ bootstrapApplication(AppComponent, {
     ),
     provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
     provideHttpClient(withInterceptors([spinnerInterceptor])),
+    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
   ],
 }).catch((err) => console.error());
