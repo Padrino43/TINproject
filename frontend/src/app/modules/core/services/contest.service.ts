@@ -47,17 +47,19 @@ export class ContestService {
           if (!response.body) return { contests: [], totalCount: 0 };
 
           const contestsArr: Contest[] = response.body.map(
-            ({ id, name, start, finish }) => {
-              let [date, fromTime] = start.split('T');
-              let [hours, minutes, _] = fromTime.split(':');
-              start = `${hours}:${minutes}`;
-              finish = finish.split(' ')[1];
+            ({ id, name, startAt, finishAt }) => {
+              let [date, fromTime] = startAt.split('T');
+              let [fromHours, fromMinutes] = fromTime.split(':');
+              startAt = `${fromHours}:${fromMinutes}`;
+              let [_, toTime] = finishAt.split('T');
+              let [toHours, toMinutes] = toTime.split(':');
+              finishAt = `${toHours}:${toMinutes}`;
               return new Contest(
                 id,
                 name,
                 date,
-                start,
-                finish
+                startAt,
+                finishAt
               );
             }
           );
@@ -74,17 +76,19 @@ export class ContestService {
       .get<ContestResponse>(`${this.apiUrl}/contests/${id}`)
       .pipe(
         map(
-          ({ id, name, start, finish }) => {
-            let [date, fromTime] = start.split('T');
-            let [hours, minutes, _] = fromTime.split(':');
-            start = `${hours}:${minutes}`;
-            finish = finish.split(' ')[1];
+          ({ id, name, startAt, finishAt }) => {
+            let [date, fromTime] = startAt.split('T');
+            let [fromHours, fromMinutes] = fromTime.split(':');
+            startAt = `${fromHours}:${fromMinutes}`;
+            let [_, toTime] = finishAt.split('T');
+            let [toHours, toMinutes] = toTime.split(':');
+            finishAt = `${toHours}:${toMinutes}`;
             return new Contest(
               id,
               name,
               date,
-              start,
-              finish
+              startAt,
+              finishAt
             );
           }
         ),
@@ -96,17 +100,19 @@ export class ContestService {
       .post<ContestResponse>(`${this.apiUrl}/contests`, clientData)
       .pipe(
         map(
-          ({ id, name, start, finish }) => {
-            let [date, fromTime] = start.split('T');
-            let [hours, minutes, _] = fromTime.split(':');
-            start = `${hours}:${minutes}`;
-            finish = finish.split(' ')[1];
+          ({ id, name, startAt, finishAt }) => {
+            let [date, fromTime] = startAt.split('T');
+            let [fromHours, fromMinutes] = fromTime.split(':');
+            startAt = `${fromHours}:${fromMinutes}`;
+            let [_, toTime] = finishAt.split('T');
+            let [toHours, toMinutes] = toTime.split(':');
+            finishAt = `${toHours}:${toMinutes}`;
             return new Contest(
               id,
               name,
               date,
-              start,
-              finish
+              startAt,
+              finishAt
             );
           }
         ),
@@ -124,17 +130,19 @@ export class ContestService {
       .put<ContestResponse>(`${this.apiUrl}/contests/${id}`, clientData)
       .pipe(
         map(
-          ({ id, name, start, finish }) => {
-            let [date, fromTime] = start.split(' ');
-            let [hours, minutes, _] = fromTime.split(':');
-            start = `${hours}:${minutes}`;
-            finish = finish.split(' ')[1];
+          ({ id, name, startAt, finishAt }) => {
+            let [date, fromTime] = startAt.split('T');
+            let [fromHours, fromMinutes] = fromTime.split(':');
+            startAt = `${fromHours}:${fromMinutes}`;
+            let [_, toTime] = finishAt.split('T');
+            let [toHours, toMinutes] = toTime.split(':');
+            finishAt = `${toHours}:${toMinutes}`;
             return new Contest(
               id,
               name,
               date,
-              start,
-              finish
+              startAt,
+              finishAt
             );
           }
         ),

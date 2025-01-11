@@ -6,11 +6,11 @@ async function getUsers() {
     try {
         const [results] = await db.query(
             'SELECT * FROM `User`');
-        return (results.length === 0)? null : results;
+        return (results.length === 0)? {} : results;
     } catch (err) {
         console.log(err);
     } finally {
-        db.end();
+        await db.end();
     }
 }
 

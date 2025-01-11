@@ -84,15 +84,15 @@ export class ContestFormComponent implements OnInit {
           Validators.maxLength(50),
           Validators.required],
       }),
-      date: new FormControl(this.editMode ? this.contest.start : '', {
+      date: new FormControl(this.editMode ? this.contest.date : '', {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      timeStart: new FormControl(this.editMode ? this.contest.start : '', {
+      startAt: new FormControl(this.editMode ? this.contest.startAt : '', {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      timeFinish: new FormControl(this.editMode ? this.contest.start : '', {
+      finishAt: new FormControl(this.editMode ? this.contest.finishAt : '', {
         nonNullable: true,
         validators: [Validators.required],
       }),

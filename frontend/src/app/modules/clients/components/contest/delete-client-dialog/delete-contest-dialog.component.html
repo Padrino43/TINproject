@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Czy chcesz usunąć zawody?</h1>
 <mat-dialog-content>
   <p>Imię i nazwisko:</p>
-  <p>{{ contest.name }} {{ contest.start }} {{ contest.finish }}</p>
+  <p>{{ contest.name }} {{ contest.startAt }} {{ contest.finishAt }}</p>
   <app-alert *ngIf="errorMessage"> {{ errorMessage }}</app-alert>
 </mat-dialog-content>
 <mat-dialog-actions>

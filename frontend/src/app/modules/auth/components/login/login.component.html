@@ -4,11 +4,11 @@
     <div>
       <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="test@gmail.com" minlength="5" maxlength="40" required [(ngModel)]="userData.email" name="email">
+        <input matInput placeholder="test@test.com" minlength="5" maxlength="40" required [(ngModel)]="userData.email" name="email">
       </mat-form-field>
     </div>
-    <ng-container *ngIf="f.controls?.['email']?.invalid && f.controls?.['email']?.touched && f.controls?.['email']?.dirty">
-      <app-alert *ngIf="f.controls?.['email']?.errors" [text]="'Ta kontrolka musi miec od 4 do 30 znakow.'"></app-alert>
+    <ng-container *ngIf="f.controls?.['email']?.invalid && !f.controls?.['email']?.untouched && f.controls?.['email']?.dirty">
+      <app-alert *ngIf="f.controls?.['email']?.errors" [text]="'Email musi zawierac od 5 do 40 znakow.'"></app-alert>
     </ng-container>
     <div>
         <mat-form-field appearance="fill">
@@ -19,8 +19,8 @@
           </button>
         </mat-form-field>
     </div>
-    <ng-container *ngIf="f.controls?.['password']?.invalid && (f.controls?.['password']?.touched || f.controls?.['password']?.dirty)">
-      <app-alert *ngIf="f.controls?.['password']?.errors" [text]="'Ta kontrolka nie moze byc pusta.'"></app-alert>
+    <ng-container *ngIf="f.controls?.['password']?.invalid && (!f.controls?.['password']?.untouched || f.controls?.['password']?.dirty)">
+      <app-alert *ngIf="f.controls?.['password']?.errors" [text]="'Haslo nie moze byc puste.'"></app-alert>
     </ng-container>
     <div class="d-flex justify-content-end">
       <button mat-raised-button color="primary" type="submit" [disabled]="!f.valid">Zaloguj się</button>

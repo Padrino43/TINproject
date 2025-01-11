@@ -1,0 +1,13 @@
+.custom-alert-yellow-text {
+  color: #ffc107;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-left: 4px solid #ffc107;
+  max-width: 600px;
+  margin: 10px auto;
+}
+
+.custom-alert-yellow-text:hover {
+  text-decoration: underline;
+}

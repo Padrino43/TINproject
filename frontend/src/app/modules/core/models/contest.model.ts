@@ -3,15 +3,15 @@ import { FormControl } from '@angular/forms';
 export interface ContestResponse {
   id: number;
   name: string;
-  start: string;
-  finish: string;
+  startAt: string;
+  finishAt: string;
 }
 export interface PostResponse {
   id: number;
   name: string;
   date: string;
-  timeStart: string;
-  timeFinish: string;
+  startAt: string;
+  finishAt: string;
 }
 
 export type PostContest = Omit<PostResponse, 'id'>;
@@ -21,8 +21,8 @@ export class Contest implements ContestResponse {
     public id: number,
     public name: string,
     public date: string,
-    public start: string,
-    public finish: string
+    public startAt: string,
+    public finishAt: string
   ) {}
 }
 
@@ -34,6 +34,6 @@ export interface GetContestResponse {
 export interface PostContestForm {
   name: FormControl<string>;
   date: FormControl<string>;
-  timeStart: FormControl<string>;
-  timeFinish: FormControl<string>;
+  startAt: FormControl<string>;
+  finishAt: FormControl<string>;
 }

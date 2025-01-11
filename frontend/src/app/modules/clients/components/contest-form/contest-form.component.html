@@ -21,27 +21,27 @@
       <mat-form-field>
         <mat-label>Godzina rozpoczęcia</mat-label>
         <input matInput
-               formControlName="timeStart"
+               formControlName="startAt"
                [matTimepicker]="startTimePicker"
                matTimepickerMin="10:00"
                matTimepickerMax="22:00">
         <mat-timepicker #startTimePicker></mat-timepicker>
         <mat-timepicker-toggle [for]="startTimePicker" matSuffix></mat-timepicker-toggle>
-        <mat-error *ngIf="controls.timeStart.invalid">{{ getErrorMessage(controls.timeStart) }}</mat-error>
+        <mat-error *ngIf="controls.startAt.invalid">{{ getErrorMessage(controls.startAt) }}</mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field>
         <mat-label>Godzina zakończenia</mat-label>
         <input matInput
-               formControlName="timeFinish"
+               formControlName="finishAt"
                [matTimepicker]="endTimePicker"
                matTimepickerMin="11:00"
                matTimepickerMax="23:00"
         >
         <mat-timepicker #endTimePicker></mat-timepicker>
         <mat-timepicker-toggle [for]="endTimePicker" matSuffix></mat-timepicker-toggle>
-        <mat-error *ngIf="controls.timeFinish.invalid">{{ getErrorMessage(controls.timeFinish) }}</mat-error>
+        <mat-error *ngIf="controls.finishAt.invalid">{{ getErrorMessage(controls.finishAt) }}</mat-error>
       </mat-form-field>
     </div>
 

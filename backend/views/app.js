@@ -13,6 +13,7 @@ app.use(cors({
     origin: 'http://localhost:4200',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
+    exposedHeaders: ['X-Total-Count']
 }));
 
 // async function test(){
@@ -23,22 +24,10 @@ app.use(cors({
 //     console.log(resultAll);
 // }
 
-// test();
-
-// const db = mysql.createConnection(mySqlCredentials);
-//
-// db.connect((err) => {
-//     if (err) {
-//         console.error('Database MySQL: ', err);
-//         return;
-//     }
-//     console.log('Database MySQL: working');
-// });
-
 
 app.get("/contests", async (req, res) => {
-    let contests  = await getContests(req);
-    res.setHeader('X-Total-Count', contests.length);
+    let [contests, total]  = await getContests(req);
+    res.header('X-Total-Count', total);
     res.json(contests);
 });
 app.get("/users", async (req, res) => {

@@ -55,8 +55,8 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
     'lp',
     'name',
     'date',
-    'start',
-    'finish',
+    'startAt',
+    'finishAt',
   ];
   dataSource!: MatTableDataSource<Contest>;
   totalCount = 0;
@@ -93,6 +93,7 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
           }),
         )
         .subscribe((clients) => {
+          console.log(clients)
           this.dataSource = new MatTableDataSource<Contest>(clients);
         }),
     );
