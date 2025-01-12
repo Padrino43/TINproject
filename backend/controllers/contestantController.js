@@ -5,8 +5,8 @@ async function getContestant(id) {
     const db = await mysql.createConnection(mySqlCredentials);
     try {
         const [results] = await db.query(
-            'SELECT * FROM `Person` WHERE `id` = ?', [id]);
-        return (results.length === 0)? [] : results;
+            'SELECT P.id, P.name, P.surname,IFNULL(SUM(C.score),0) AS score, P.startingDate FROM Person P LEFT JOIN Contestant C ON C.id=P.id WHERE P.id = ?', [id]);
+        return (results.length === 0 || results.id === null)? [] : results;
     } catch (err) {
         console.log(err);
     } finally {
@@ -14,20 +14,31 @@ async function getContestant(id) {
     }
 }
 
-async function getContestants(req) {
+async function getContestants(req, scores, contestId) {
     const { _page, _limit, _sort, _order, name_like } = req.query;
 
     const page = parseInt(_page) || 1;
     const limit = parseInt(_limit) || 10;
     const offset = (page - 1) * limit;
 
-    const allowedSortColumns = ['name', 'id', 'surname'];
+    const allowedSortColumns = ['name', 'surname'];
+    (scores)?allowedSortColumns.push('score'):'';
     const sortColumn = allowedSortColumns.includes(_sort) ? _sort : 'id';
     const sortDirection = _order === 'desc' ? 'DESC' : 'ASC';
 
-    let sql = 'SELECT id, name, surname, startingDate FROM Person WHERE 1=1';
+    let sql;
+    if (scores)
+    sql =
+        'SELECT P.id, P.name, P.surname,C.score,P.startingDate FROM Person P LEFT JOIN Contestant C ON C.id=P.id WHERE 1=1';
+    else
+        sql =
+            'SELECT id, name, surname, startingDate FROM Person WHERE 1=1';
 
     const queryParams = [];
+    if (scores) {
+        sql += ` AND C.contest = ${contestId}`;
+    }
+
     if (name_like) {
         sql += ` AND surname LIKE ?`;
         queryParams.push(`%${name_like}%`);
@@ -35,12 +46,13 @@ async function getContestants(req) {
 
     sql += ` ORDER BY ${sortColumn} ${sortDirection}`;
 
+
     sql += ` LIMIT ${limit} OFFSET ${offset}`;
 
     const db = await mysql.createConnection(mySqlCredentials);
     try {
         const [results] = await db.query(sql, queryParams);
-        const [total] = await db.query('SELECT * FROM `Person`');
+        const [total] = await db.query('SELECT * FROM Contestant WHERE contest=?',[contestId]);
         return [results, total.length];
     } catch (error) {
         console.log(error);

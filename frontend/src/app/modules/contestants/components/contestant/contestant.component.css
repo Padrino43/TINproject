@@ -1,14 +1,9 @@
-.contest-form-wrapper{
-  max-width: 600px;
-  margin: 0 auto;
-}
 .contest-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  min-height: 88vh;
-  padding-top: 100px;
+  padding-top: 20px;
 }
 
 .contest-content h2 {

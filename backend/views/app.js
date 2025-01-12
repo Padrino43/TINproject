@@ -55,7 +55,12 @@ app.delete("/contests/:id", async (req, res) => {
 
 
 app.get("/contestants", async (req, res) => {
-    let [contestant, total]  = await getContestants(req);
+    let contestant, total;
+    if (req.get('With-Scores') === 'yes') {
+        [contestant, total]  = await getContestants(req,true, Number(req.get('FromContest').trim().replace(/^'(.*)'$/, '$1')));
+    } else {
+        [ contestant, total ] = await getContestants(req,false);
+    }
     res.header('X-Total-Count', total);
     res.json(contestant);
 });

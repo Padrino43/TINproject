@@ -7,16 +7,17 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DeleteContestDialogComponent } from './delete-contest-dialog/delete-contest-dialog.component';
 import { EditContestDialogComponent } from './edit-contest-dialog/edit-contest-dialog.component';
 import { MatButton } from '@angular/material/button';
-import { NgIf } from '@angular/common';
+import {DatePipe, NgIf} from '@angular/common';
 import {AuthService} from "../../../core/services/auth.service";
 import {User} from "../../../core/models/user.model";
+import {ContestantTableComponent} from "./contestant-table/contestant-table.component";
 
 @Component({
   selector: 'app-contest',
   templateUrl: './contest.component.html',
   styleUrl: './contest.component.css',
   standalone: true,
-  imports: [NgIf, MatButton, MatDialogModule, RouterLink],
+  imports: [NgIf, MatButton, MatDialogModule, RouterLink, ContestantTableComponent, DatePipe],
 })
 export class ContestComponent implements OnInit {
   contest!: Contest;

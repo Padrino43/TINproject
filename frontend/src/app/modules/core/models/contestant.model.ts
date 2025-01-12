@@ -4,6 +4,7 @@ export interface ContestantResponse {
   id: number;
   name: string;
   surname: string;
+  score: number
   startingDate: string;
 }
 export interface PostResponse {
@@ -20,6 +21,7 @@ export class Contestant implements ContestantResponse {
     public id: number,
     public name: string,
     public surname: string,
+    public score: number,
     public startingDate: string,
   ) {}
 }

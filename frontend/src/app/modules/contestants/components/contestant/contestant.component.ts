@@ -6,17 +6,22 @@ import {MatDialog} from "@angular/material/dialog";
 import {AuthService} from "../../../core/services/auth.service";
 import {ContestantService} from "../../../core/services/contestant.service";
 import {MatButton} from "@angular/material/button";
-import {NgIf} from "@angular/common";
+import {DatePipe, NgIf} from "@angular/common";
 import {Contestant} from "../../../core/models/contestant.model";
 import {DeleteContestantDialogComponent} from "./delete-contestant-dialog/delete-contestant-dialog.component";
 import {EditContestantDialogComponent} from "./edit-contestant-dialog/edit-contestant-dialog.component";
+import {
+  ContestantTableComponent
+} from "../../../contests/components/contest/contestant-table/contestant-table.component";
 
 @Component({
   selector: 'app-contestant',
   imports: [
     MatButton,
     NgIf,
-    RouterLink
+    RouterLink,
+    ContestantTableComponent,
+    DatePipe
   ],
   standalone: true,
   templateUrl: './contestant.component.html',

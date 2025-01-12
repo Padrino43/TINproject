@@ -1,5 +1,7 @@
 <div class="contest-content" *ngIf="contest">
-  <h2>{{ contest.name }} {{ contest.date }} {{ contest.startAt }}-{{ contest.finishAt }}</h2>
+  <h2>{{ contest.name }}</h2>
+  <p>Data: {{ contest.date | date:'dd.MM.yyyy' }}</p>
+  <p>Czas: {{ contest.startAt }} - {{ contest.finishAt }}</p>
 
   <div class="buttons-spacing">
     <div *ngIf="user">
@@ -16,3 +18,4 @@
   </div>
   </div>
 </div>
+<app-contestant-table *ngIf="contest" [contestId]="contest.id"></app-contestant-table>
