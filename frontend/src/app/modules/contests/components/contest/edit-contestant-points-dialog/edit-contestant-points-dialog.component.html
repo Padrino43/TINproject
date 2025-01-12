@@ -1,0 +1,4 @@
+<h1 mat-dialog-title>Edytuj zawodnika w zawodach</h1>
+<mat-dialog-content>
+  <app-contestant-add-to-contest-form [contest]="data.contest" [contestant]="data.contestant" [editMode]="true" (closeDialog)="closeDialog()"> {{ data }}</app-contestant-add-to-contest-form>
+</mat-dialog-content>

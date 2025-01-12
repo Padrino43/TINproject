@@ -8,9 +8,13 @@
       <p>Powrót</p>
       <button mat-raised-button color="link" routerLink="/contests">Powrót</button>
     </div>
+    <div *ngIf="user">
+      <p>Dodaj zawodnika</p>
+      <button mat-raised-button color="primary" routerLink="/contests/{{ contest.id }}/add">Dodaj</button>
+    </div>
   <div *ngIf="user">
     <p>Edytuj zawody</p>
-    <button mat-raised-button color="primary" (click)="openEditDialog()">Edytuj</button>
+    <button mat-raised-button color="accent" (click)="openEditDialog()">Edytuj</button>
   </div>
   <div *ngIf="user">
     <p>Usuń zawody</p>

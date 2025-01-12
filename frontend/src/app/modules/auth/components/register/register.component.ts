@@ -75,8 +75,11 @@ export class RegisterComponent {
       next: () => {
         this.router.navigate(['/login']);
       },
-      error: () => {
-        this.errorMessage = 'Wystąpił błąd.';
+      error: (error) => {
+        if (error.message === 'Email already exists') {
+          this.errorMessage = 'Ten email jest juz zarejestrowany';
+        }
+        else this.errorMessage = 'Wystąpił błąd.';
       },
     });
   }

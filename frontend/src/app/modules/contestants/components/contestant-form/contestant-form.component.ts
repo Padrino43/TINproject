@@ -29,7 +29,10 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatDatepickerModule,
     FormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+  ],
+  providers: [
+    MatDatepickerModule,
   ],
   standalone: true,
   templateUrl: './contestant-form.component.html',

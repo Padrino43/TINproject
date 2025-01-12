@@ -3,7 +3,9 @@ const cors = require('cors');
 const express = require('express');
 const { getContest, getContests, postContest, deleteContest, editContest } = require("../controllers/contestController");
 const { getUsers, addUser } = require("../controllers/userController");
-const {getContestants, getContestant, editContestant, deleteContestant, postContestant} = require("../controllers/contestantController");
+const {getContestants, getContestant, editContestant, deleteContestant, postContestant, deleteContestantFromContest,
+    getContestantsForForm, postContestantsForForm, editContestantsForForm
+} = require("../controllers/contestantController");
 const app = express();
 
 
@@ -22,6 +24,10 @@ app.get("/users", async (req, res) => {
 });
 app.post("/users", async (req, res) => {
     let user  = await addUser(req.body);
+    if (user === null)
+        res.status(409)
+    else
+        res.json(user);
     res.json(user);
 });
 
@@ -44,7 +50,7 @@ app.get("/contests/:id", async (req, res) => {
 });
 app.post("/contests", async (req, res) => {
     let contest  = await postContest(req.body);
-    res.send(contest);
+    res.json(contest);
 });
 app.put("/contests/:id", async (req, res) => {
     let { id }  = req.params;
@@ -63,6 +69,8 @@ app.get("/contestants", async (req, res) => {
     let contestant, total;
     if (req.get('With-Scores') === 'yes') {
         [contestant, total]  = await getContestants(req,true, Number(req.get('FromContest').trim().replace(/^'(.*)'$/, '$1')));
+    } else if(req.get('To-Form') === 'yes') {
+        [ contestant, total ] = await getContestantsForForm();
     } else {
         [ contestant, total ] = await getContestants(req,false);
     }
@@ -89,7 +97,20 @@ app.delete("/contestants/:id", async (req, res) => {
     res.json({}).status(200)
 });
 
-
+app.delete("/contestant/:id", async (req, res) => {
+    let { id }  = req.params;
+    await deleteContestantFromContest(id);
+    res.json({}).status(200)
+});
+app.post("/contestant", async (req, res) => {
+    let contest  = await postContestantsForForm(req.body);
+    res.json(contest).status(200);
+});
+app.put("/contestant/:id", async (req, res) => {
+    let { id }  = req.params;
+    let [contest]  = await editContestantsForForm(id, req.body);
+    res.json(contest).status(200);
+});
 
 
 app.get('*', async (req, res) => {

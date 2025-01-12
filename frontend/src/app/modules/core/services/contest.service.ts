@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
-import { map, Observable } from 'rxjs';
+import {map, Observable, tap} from 'rxjs';
 import {
   Contest,
   ContestResponse,
@@ -124,25 +124,21 @@ export class ContestService {
       .post<ContestResponse>(`${this.apiUrl}/contests`, modifiedData)
       .pipe(
         map(
-          ({ id, name, startAt, finishAt, score }) => {
-            let [date, fromTime] = startAt.split('T');
-            let [fromHours, fromMinutes] = fromTime.split(':');
-            startAt = `${fromHours}:${fromMinutes}`;
-            let [_, toTime] = finishAt.split('T');
-            let [toHours, toMinutes] = toTime.split(':');
-            finishAt = `${toHours}:${toMinutes}`;
+          ({ id, name, startAt, finishAt }) => {
             return new Contest(
               id,
               name,
               date,
               startAt,
               finishAt,
-              score
+              0
             );
           }
         ),
       );
   }
+
+
 
   deleteContest(id: number): Observable<Record<string, never>> {
     return this.http.delete<Record<string, never>>(

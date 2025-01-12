@@ -22,7 +22,6 @@ import {ContestService} from "../../../../core/services/contest.service";
 @Component({
   selector: 'app-contest-table',
   imports: [
-    MatButton,
     MatCell,
     MatCellDef,
     MatColumnDef,

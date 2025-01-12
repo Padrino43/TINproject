@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output} from '@angular/core';
 import { ContestService } from '../../../core/services/contest.service';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Subscription, switchMap} from 'rxjs';
@@ -11,6 +11,10 @@ import {DatePipe, NgIf} from '@angular/common';
 import {AuthService} from "../../../core/services/auth.service";
 import {User} from "../../../core/models/user.model";
 import {ContestantTableComponent} from "./contestant-table/contestant-table.component";
+import {
+  EditContestantPointsDialogComponent
+} from "./edit-contestant-points-dialog/edit-contestant-points-dialog.component";
+import {Contestant} from "../../../core/models/contestant.model";
 
 @Component({
   selector: 'app-contest',
@@ -20,7 +24,8 @@ import {ContestantTableComponent} from "./contestant-table/contestant-table.comp
   imports: [NgIf, MatButton, MatDialogModule, RouterLink, ContestantTableComponent, DatePipe],
 })
 export class ContestComponent implements OnInit {
-  contest!: Contest;
+  @Output() contest!: Contest;
+  @Output() contestant!: Contestant;
   user: User | null = null;
   sub!: Subscription;
   constructor(

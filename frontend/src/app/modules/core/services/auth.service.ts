@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {BehaviorSubject, catchError, map, Observable, tap, throwError} from 'rxjs';
 import {
   GetUserResponse,
   PostUser,
@@ -53,7 +53,15 @@ export class AuthService {
   }
 
   register(userData: PostUser): Observable<PostUserResponse> {
-    return this.http.post<PostUserResponse>(`${this.apiUrl}/users`, userData);
+    return this.http.post<PostUserResponse>(`${this.apiUrl}/users`, userData)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 409) {
+            return throwError(() => new Error('Email already exists'));
+          }
+          return throwError(() => error);
+        })
+      );
   }
 
   logout() {

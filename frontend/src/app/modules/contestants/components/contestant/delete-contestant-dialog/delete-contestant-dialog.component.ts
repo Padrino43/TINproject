@@ -13,6 +13,7 @@ import {NgIf} from "@angular/common";
 import {ContestService} from "../../../../core/services/contest.service";
 import {Router} from "@angular/router";
 import {Contestant} from "../../../../core/models/contestant.model";
+import {ContestantService} from "../../../../core/services/contestant.service";
 
 @Component({
   selector: 'app-delete-contestant-dialog',
@@ -35,7 +36,7 @@ export class DeleteContestantDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<DeleteContestantDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: { contestant: Contestant },
-    private contestService: ContestService,
+    private contestantService: ContestantService,
     private router: Router,
   ) {}
 
@@ -44,7 +45,7 @@ export class DeleteContestantDialogComponent implements OnInit {
   }
 
   onDelete() {
-    this.contestService.deleteContest(this.contestant.id).subscribe({
+    this.contestantService.deleteContestant(this.contestant.id).subscribe({
       next: () => {
         this.dialogRef.close();
         this.router.navigate(['/contestants']);

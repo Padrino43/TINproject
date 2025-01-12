@@ -21,7 +21,6 @@ import {ContestTableComponent} from "./contest-table/contest-table.component";
     MatButton,
     NgIf,
     RouterLink,
-    ContestantTableComponent,
     DatePipe,
     ContestTableComponent
   ],

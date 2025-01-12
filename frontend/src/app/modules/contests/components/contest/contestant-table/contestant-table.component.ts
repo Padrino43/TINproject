@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, Output, ViewChild} from '@angular/core';
 import {
   MatCell,
   MatCellDef,
@@ -18,6 +18,13 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {RouterLink} from "@angular/router";
 import {HighlightDirective} from "../../../../shared/directives/highlight.directive";
+import {MatDialog} from "@angular/material/dialog";
+import {EditContestDialogComponent} from "../edit-contest-dialog/edit-contest-dialog.component";
+import {
+  EditContestantPointsDialogComponent
+} from "../edit-contestant-points-dialog/edit-contestant-points-dialog.component";
+import {Contest} from "../../../../core/models/contest.model";
+import {ContestService} from "../../../../core/services/contest.service";
 
 @Component({
   selector: 'app-contestant-table',
@@ -39,7 +46,6 @@ import {HighlightDirective} from "../../../../shared/directives/highlight.direct
     MatSortHeader,
     MatTable,
     ReactiveFormsModule,
-    RouterLink,
     HighlightDirective,
     MatNoDataRow,
     MatHeaderCellDef
@@ -54,18 +60,24 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
     'name',
     'surname',
     'score',
-    // 'buttons',
+    'editButton',
+    'deleteButton',
   ]
   dataSource!: MatTableDataSource<Contestant>;
   totalCount = 0;
   filterValue = new FormControl('', { nonNullable: true });
   sub = new Subscription();
+  contest!: Contest;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Input() contestId!: number;
 
-  constructor(private contestantService: ContestantService) {}
+  constructor(
+    private contestantService: ContestantService,
+    private contestService: ContestService,
+    private dialog: MatDialog
+  ) {}
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -91,6 +103,9 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
           }),
           map((data) => {
             this.totalCount = data.totalCount;
+            this.contestService.getContest(this.contestId).subscribe((contest) => {
+              this.contest = contest;
+            });
             return data.contestants;
           }),
         )
@@ -126,6 +141,26 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
       if (this.dataSource.paginator) {
         this.dataSource.paginator.firstPage();
       }
+    }
+
+    onEdit(row: Contestant){
+      console.log()
+      this.dialog.open(EditContestantPointsDialogComponent, {
+        data: {
+          contest: this.contest,
+          contestant: row,
+        },
+        width: '600px',
+        maxWidth: '600px',
+        height: '600px',
+      });
+      // this.contestantService.putContestantPoints(id).subscribe(
+      //   ()=> {this.ngAfterViewInit();});
+    }
+
+  onDelete(id: number) {
+    this.contestantService.deleteContestantFromContest(id).subscribe(
+      ()=> {this.ngAfterViewInit();});
     }
 
     ngOnDestroy(): void {

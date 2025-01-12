@@ -14,6 +14,51 @@ async function getContestant(id) {
     }
 }
 
+async function getContestantsForForm() {
+
+    let sql =
+        'SELECT P.id, P.name, P.surname,IFNULL(SUM(C.score),0) AS score, P.startingDate FROM Person P LEFT JOIN Contestant C ON C.id=P.id GROUP BY P.id';
+
+    const db = await mysql.createConnection(mySqlCredentials);
+    try {
+        const [results] = await db.query(sql);
+        return [results];
+    } catch (error) {
+        console.log(error);
+        return {};
+    } finally {
+        await db.end();
+    }
+}
+
+async function postContestantsForForm(args) {
+    const {id: idP, contest: nameC, score: scoreC }= args;
+    const db = await mysql.createConnection(mySqlCredentials);
+
+    try {
+        await db.query('INSERT INTO Contestant(id,contest,score) VALUES (?,?,?)', [idP,nameC,scoreC]);
+        return getContestant(idP);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await db.end();
+    }
+}
+async function editContestantsForForm(id, body) {
+    const {score: newScore } = body;
+
+    const db = await mysql.createConnection(mySqlCredentials);
+    try {
+        await db.query('UPDATE Contestant SET score=? WHERE id=?',
+            [newScore,id]);
+        return await getContestant(id);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await db.end();
+    }
+}
+
 async function getContestants(req, scores, contestId) {
     const { _page, _limit, _sort, _order, name_like } = req.query;
 
@@ -108,8 +153,18 @@ async function deleteContestant(id) {
         await db.end();
     }
 }
+async function deleteContestantFromContest(id) {
+    const db = await mysql.createConnection(mySqlCredentials);
+    try {
+        await db.query('DELETE FROM Contestant WHERE id=?', [id]);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await db.end();
+    }
+}
 
 
 
 
-module.exports = { getContestant, getContestants, postContestant, editContestant, deleteContestant };
+module.exports = { getContestant, getContestants, postContestant, editContestant, deleteContestant, deleteContestantFromContest, getContestantsForForm, postContestantsForForm, editContestantsForForm };

@@ -88,11 +88,11 @@ export class ContestFormComponent implements OnInit {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      startAt: new FormControl(this.editMode ? this.contest.startAt : '', {
+      startAt: new FormControl('', {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      finishAt: new FormControl(this.editMode ? this.contest.finishAt : '', {
+      finishAt: new FormControl('', {
         nonNullable: true,
         validators: [Validators.required],
       }),

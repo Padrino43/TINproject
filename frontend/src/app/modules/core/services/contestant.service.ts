@@ -13,6 +13,36 @@ export class ContestantService {
   constructor(private http: HttpClient) {}
 
 
+  getContestantsForForm(): Observable<Contestant[]> {
+    let header = new HttpHeaders({ 'To-Form': 'yes'});
+
+    return this.http
+      .get<ContestantResponse[]>(`${this.apiUrl}/contestants`, {
+        observe: 'response',
+        headers: header,
+      })
+      .pipe(
+        map((response) => {
+          if (!response.body) return  [];
+
+          return response.body.map(
+            ({id, name, surname, score, startingDate}) => {
+              let date = startingDate + '';
+              date = date.split('T')[0];
+              return new Contestant(
+                id,
+                name,
+                surname,
+                score,
+                date
+              );
+            }
+          );
+        }),
+      );
+  }
+
+
   getContestant(id: number): Observable<Contestant> {
     return this.http
       .get<ContestantResponse>(`${this.apiUrl}/contestants/${id}`)
@@ -74,9 +104,9 @@ export class ContestantService {
 
           const contestantsArr: Contestant[] = response.body.map(
             ({ id, name, surname, score, startingDate }) => {
-              let date = '';
+              let date = startingDate + '';
               if(!scores) {
-                [date] = startingDate.split('T');
+                date = date.split('T')[0];
               }
               return new Contestant(
                 id,
@@ -119,6 +149,24 @@ export class ContestantService {
       );
   }
 
+  postContestantForForm(contestantData: any): Observable<Contestant> {
+    return this.http
+      .post<ContestantResponse>(`${this.apiUrl}/contestant`, contestantData)
+      .pipe(
+        map(
+          ({ id, name, surname, score, startingDate }) => {
+            return new Contestant(
+              id,
+              name,
+              surname,
+              score,
+              startingDate
+            );
+          }
+        ),
+      );
+  }
+
   deleteContestant(id: number): Observable<Record<string, never>> {
     return this.http.delete<Record<string, never>>(
       `${this.apiUrl}/contestants/${id}`,
@@ -126,8 +174,15 @@ export class ContestantService {
   }
 
   putContestant(contestantData: PostContestant, id: number): Observable<Contestant> {
+    const oldDate = new Date(contestantData.startingDate);
+    const date = oldDate.getFullYear() + '-' + (oldDate.getMonth() + 1) + '-' + oldDate.getDate();
+    const modifiedContestant = {
+      name: contestantData.name,
+      surname: contestantData.surname,
+      startingDate: date,
+    }
     return this.http
-      .put<ContestantResponse>(`${this.apiUrl}/contestants/${id}`, contestantData)
+      .put<ContestantResponse>(`${this.apiUrl}/contestants/${id}`, modifiedContestant)
       .pipe(
         map(
           ({ id, name, surname, startingDate }) => {
@@ -141,5 +196,29 @@ export class ContestantService {
           }
         ),
       );
+  }
+
+  putContestantForForm(contestantData: any, id: number): Observable<Contestant> {
+    return this.http
+      .put<ContestantResponse>(`${this.apiUrl}/contestant/${id}`, contestantData)
+      .pipe(
+        map(
+          ({ id, name, surname, score, startingDate }) => {
+            return new Contestant(
+              id,
+              name,
+              surname,
+              score,
+              startingDate
+            );
+          }
+        ),
+      );
+  }
+
+  deleteContestantFromContest(id: number): Observable<Record<string, never>> {
+    return this.http.delete<Record<string, never>>(
+      `${this.apiUrl}/contestant/${id}`,
+    );
   }
 }

@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent } from 
 import { Contest } from '../../../../core/models/contest.model';
 import { DeleteContestDialogComponent } from '../delete-contest-dialog/delete-contest-dialog.component';
 import { ContestFormComponent } from '../../contest-form/contest-form.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @Component({
     selector: 'app-edit-contest-dialog',
@@ -13,7 +15,12 @@ import { ContestFormComponent } from '../../contest-form/contest-form.component'
         MatDialogTitle,
         MatDialogContent,
         ContestFormComponent,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
+  providers: [
+    MatDatepickerModule,
+  ],
 })
 export class EditContestDialogComponent {
   constructor(

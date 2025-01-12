@@ -22,10 +22,9 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       AuthModule,
       BrowserAnimationsModule,
-      HttpClientModule
     ),
     provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
     provideHttpClient(withInterceptors([spinnerInterceptor])),
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
   ],
-}).catch((err) => console.error());
+}).catch(() => console.error());
