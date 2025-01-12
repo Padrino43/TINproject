@@ -5,6 +5,7 @@ export interface ContestResponse {
   name: string;
   startAt: string;
   finishAt: string;
+  score: number;
 }
 export interface PostResponse {
   id: number;
@@ -22,7 +23,8 @@ export class Contest implements ContestResponse {
     public name: string,
     public date: string,
     public startAt: string,
-    public finishAt: string
+    public finishAt: string,
+    public score: number
   ) {}
 }
 

@@ -52,7 +52,12 @@ async function getContestants(req, scores, contestId) {
     const db = await mysql.createConnection(mySqlCredentials);
     try {
         const [results] = await db.query(sql, queryParams);
-        const [total] = await db.query('SELECT * FROM Contestant WHERE contest=?',[contestId]);
+        let total;
+        if(scores) {
+            [ total ] = await db.query('SELECT * FROM Contestant WHERE contest=?', [ contestId ]);
+        } else {
+            [ total ] = await db.query('SELECT * FROM Person');
+        }
         return [results, total.length];
     } catch (error) {
         console.log(error);

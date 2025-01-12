@@ -86,6 +86,7 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
               itemsPerPage,
               sortDirection,
               sortColumnName,
+              false
             );
           }),
           map((data) => {
@@ -116,7 +117,7 @@ export class ContestTableComponent implements AfterViewInit, OnDestroy {
     const sortColumnName = this.sort.active;
 
     this.contestService
-      .getContests(pageIndex, itemsPerPage, sortDirection, sortColumnName, val)
+      .getContests(pageIndex, itemsPerPage, sortDirection, sortColumnName,false, 0, val)
       .subscribe({
         next: (response) => {
           this.totalCount = response.totalCount;

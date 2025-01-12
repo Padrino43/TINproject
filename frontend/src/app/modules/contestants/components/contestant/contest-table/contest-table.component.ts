@@ -1,26 +1,26 @@
 import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core';
+import {MatButton} from "@angular/material/button";
 import {
   MatCell,
   MatCellDef,
   MatColumnDef,
   MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatNoDataRow, MatRow, MatRowDef, MatTable,
-  MatTableDataSource
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow, MatRowDef, MatTable, MatTableDataSource
 } from "@angular/material/table";
-import {Contestant} from "../../../../core/models/contestant.model";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, map, merge, startWith, Subscription, switchMap} from "rxjs";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort, MatSortHeader} from "@angular/material/sort";
-import {ContestantService} from "../../../../core/services/contestant.service";
-import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {RouterLink} from "@angular/router";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort, MatSortHeader} from "@angular/material/sort";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {HighlightDirective} from "../../../../shared/directives/highlight.directive";
+import {Contest} from "../../../../core/models/contest.model";
+import {debounceTime, distinctUntilChanged, map, merge, startWith, Subscription, switchMap} from "rxjs";
+import {ContestService} from "../../../../core/services/contest.service";
 
 @Component({
-  selector: 'app-contestant-table',
+  selector: 'app-contest-table',
   imports: [
     MatButton,
     MatCell,
@@ -39,33 +39,31 @@ import {HighlightDirective} from "../../../../shared/directives/highlight.direct
     MatSortHeader,
     MatTable,
     ReactiveFormsModule,
-    RouterLink,
     HighlightDirective,
-    MatNoDataRow,
     MatHeaderCellDef
   ],
-  templateUrl: './contestant-table.component.html',
-  styleUrl: './contestant-table.component.css',
-  standalone: true,
+  templateUrl: './contest-table.component.html',
+  styleUrl: './contest-table.component.css'
 })
-export class ContestantTableComponent implements AfterViewInit, OnDestroy{
+export class ContestTableComponent implements AfterViewInit, OnDestroy{
   displayedColumns: string[] = [
     'lp',
     'name',
-    'surname',
+    'date',
+    'startAt',
+    'finishAt',
     'score',
     // 'buttons',
-  ]
-  dataSource!: MatTableDataSource<Contestant>;
+  ];
+  dataSource!: MatTableDataSource<Contest>;
   totalCount = 0;
   filterValue = new FormControl('', { nonNullable: true });
   sub = new Subscription();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() contestId!: number;
-
-  constructor(private contestantService: ContestantService) {}
+  @Input() contestantId!: number;
+  constructor(private contestService: ContestService) {}
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -80,22 +78,23 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
             const sortDirection = this.sort.direction;
             const sortColumnName = this.sort.active;
 
-            return this.contestantService.getContestants(
+            return this.contestService.getContests(
               pageIndex,
               itemsPerPage,
               sortDirection,
               sortColumnName,
               true,
-              this.contestId
+              this.contestantId
             );
           }),
           map((data) => {
             this.totalCount = data.totalCount;
-            return data.contestants;
+
+            return data.contests;
           }),
         )
-        .subscribe((contestants) => {
-          this.dataSource = new MatTableDataSource<Contestant>(contestants);
+        .subscribe((contests) => {
+          this.dataSource = new MatTableDataSource<Contest>(contests);
         }),
     );
 
@@ -108,27 +107,28 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
         }),
     );
   }
-    applyFilter(val: string) {
-      const pageIndex = this.paginator.pageIndex + 1;
-      const itemsPerPage = this.paginator.pageSize;
-      const sortDirection = this.sort.direction;
-      const sortColumnName = this.sort.active;
 
-      this.contestantService
-        .getContestants(pageIndex, itemsPerPage, sortDirection, sortColumnName, true, this.contestId,val)
-        .subscribe({
-          next: (response) => {
-            this.totalCount = response.totalCount;
-            this.dataSource = new MatTableDataSource<Contestant>(response.contestants);
-          },
-        });
+  applyFilter(val: string) {
+    const pageIndex = this.paginator.pageIndex + 1;
+    const itemsPerPage = this.paginator.pageSize;
+    const sortDirection = this.sort.direction;
+    const sortColumnName = this.sort.active;
 
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
+    this.contestService
+      .getContests(pageIndex, itemsPerPage, sortDirection, sortColumnName, true, this.contestantId, val)
+      .subscribe({
+        next: (response) => {
+          this.totalCount = response.totalCount;
+          this.dataSource = new MatTableDataSource<Contest>(response.contests);
+        },
+      });
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
+  }
 
-    ngOnDestroy(): void {
-      this.sub.unsubscribe();
-    }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 }

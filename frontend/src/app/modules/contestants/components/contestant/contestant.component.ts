@@ -13,6 +13,7 @@ import {EditContestantDialogComponent} from "./edit-contestant-dialog/edit-conte
 import {
   ContestantTableComponent
 } from "../../../contests/components/contest/contestant-table/contestant-table.component";
+import {ContestTableComponent} from "./contest-table/contest-table.component";
 
 @Component({
   selector: 'app-contestant',
@@ -21,7 +22,8 @@ import {
     NgIf,
     RouterLink,
     ContestantTableComponent,
-    DatePipe
+    DatePipe,
+    ContestTableComponent
   ],
   standalone: true,
   templateUrl: './contestant.component.html',

@@ -14,7 +14,7 @@ async function getContest(id) {
     }
 }
 
-async function getContests(req) {
+async function getContests(req,scores,contestantId) {
     const { _page, _limit, _sort, _order, name_like } = req.query;
 
     const page = parseInt(_page) || 1;
@@ -22,12 +22,21 @@ async function getContests(req) {
     const offset = (page - 1) * limit;
 
     const allowedSortColumns = ['name', 'id'];
+    (scores)?allowedSortColumns.push('score'):'';
     const sortColumn = allowedSortColumns.includes(_sort) ? _sort : 'id';
     const sortDirection = _order === 'desc' ? 'DESC' : 'ASC';
 
-    let sql = 'SELECT id, name, startAt, finishAt FROM Contests WHERE 1=1';
+    let sql;
+    if (scores)
+        sql = 'SELECT C.id, C.name, C.startAt, C.finishAt, Contestant.score FROM Contests C JOIN Contestant on Contestant.contest = C.id';
+    else
+        sql = 'SELECT id, name, startAt, finishAt FROM Contests WHERE 1=1';
 
     const queryParams = [];
+    if (scores) {
+        sql += ` AND Contestant.id = ${contestantId}`;
+    }
+
     if (name_like) {
         sql += ` AND name LIKE ?`;
         queryParams.push(`%${name_like}%`);
@@ -40,7 +49,13 @@ async function getContests(req) {
     const db = await mysql.createConnection(mySqlCredentials);
     try {
         const [results] = await db.query(sql, queryParams);
-        const [total] = await db.query('SELECT * FROM `Contests`');
+        let total;
+        if (scores){
+            [total] = await db.query('SELECT * FROM Contestant WHERE id=?', [ contestantId ]);
+        }
+        else {
+            [total] = await db.query('SELECT * FROM `Contests`');
+        }
         return [results, total.length];
     } catch (error) {
         console.log(error);

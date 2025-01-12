@@ -89,7 +89,6 @@ export class ContestantService {
           );
 
           const totalCount = Number(response.headers.get('X-Total-Count'));
-
           return { contestants: contestantsArr, totalCount: totalCount };
         }),
       );

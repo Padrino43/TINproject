@@ -13,7 +13,7 @@ app.use(cors({
     origin: 'http://localhost:4200',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
-    exposedHeaders: ['X-Total-Count']
+    exposedHeaders: ['X-Total-Count','FromContestant','FromContest']
 }));
 
 app.get("/users", async (req, res) => {
@@ -28,7 +28,12 @@ app.post("/users", async (req, res) => {
 
 
 app.get("/contests", async (req, res) => {
-    let [contests, total]  = await getContests(req);
+    let contests, total;
+    if (req.get('With-Scores') === 'yes') {
+        [contests, total]  = await getContests(req, true, Number(req.get('FromContestant').trim().replace(/^'(.*)'$/, '$1')));
+    } else {
+        [ contests, total ] = await getContests(req, false);
+    }
     res.header('X-Total-Count', total);
     res.json(contests);
 });

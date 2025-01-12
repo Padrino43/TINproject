@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
 import { map, Observable } from 'rxjs';
 import {
@@ -21,6 +21,8 @@ export class ContestService {
     itemsPerPage: number,
     sortDirection: string,
     sortColumnName: string,
+    scores: boolean,
+    fromContestant: number = 0,
     value = '',
   ): Observable<GetContestResponse> {
     let params = new HttpParams()
@@ -31,23 +33,32 @@ export class ContestService {
       params = params
         .append('_sort', sortColumnName)
         .append('_order', sortDirection);
+    } else if (scores && !sortColumnName){
+      params = params
+        .append('_sort', "score")
+        .append('_order', "desc");
     }
 
     if (value) {
       params = params.append('name_like', value);
     }
 
+    let header = scores
+      ? new HttpHeaders({ 'With-Scores': 'yes', 'FromContestant':`'${fromContestant}'` })
+      : new HttpHeaders({ 'With-Scores': 'no' });
+
     return this.http
       .get<ContestResponse[]>(`${this.apiUrl}/contests`, {
         observe: 'response',
         params,
+        headers: header
       })
       .pipe(
         map((response) => {
           if (!response.body) return { contests: [], totalCount: 0 };
 
           const contestsArr: Contest[] = response.body.map(
-            ({ id, name, startAt, finishAt }) => {
+            ({ id, name, startAt, finishAt, score }) => {
               let [date, fromTime] = startAt.split('T');
               let [fromHours, fromMinutes] = fromTime.split(':');
               startAt = `${fromHours}:${fromMinutes}`;
@@ -59,7 +70,8 @@ export class ContestService {
                 name,
                 date,
                 startAt,
-                finishAt
+                finishAt,
+                (scores)? score : 0,
               );
             }
           );
@@ -88,7 +100,8 @@ export class ContestService {
               name,
               date,
               startAt,
-              finishAt
+              finishAt,
+              0
             );
           }
         ),
@@ -111,7 +124,7 @@ export class ContestService {
       .post<ContestResponse>(`${this.apiUrl}/contests`, modifiedData)
       .pipe(
         map(
-          ({ id, name, startAt, finishAt }) => {
+          ({ id, name, startAt, finishAt, score }) => {
             let [date, fromTime] = startAt.split('T');
             let [fromHours, fromMinutes] = fromTime.split(':');
             startAt = `${fromHours}:${fromMinutes}`;
@@ -123,7 +136,8 @@ export class ContestService {
               name,
               date,
               startAt,
-              finishAt
+              finishAt,
+              score
             );
           }
         ),
@@ -152,7 +166,7 @@ export class ContestService {
       .put<ContestResponse>(`${this.apiUrl}/contests/${id}`, modifiedData)
       .pipe(
         map(
-          ({ id, name, startAt, finishAt }) => {
+          ({ id, name, startAt, finishAt, score }) => {
             let [date, fromTime] = startAt.split('T');
             let [fromHours, fromMinutes] = fromTime.split(':');
             startAt = `${fromHours}:${fromMinutes}`;
@@ -164,7 +178,8 @@ export class ContestService {
               name,
               date,
               startAt,
-              finishAt
+              finishAt,
+              score
             );
           }
         ),
