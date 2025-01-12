@@ -1,12 +1,16 @@
 <div class="contest-content" *ngIf="contest">
-  <h2>{{ contest.name }} {{ contest.date }} {{ contest.startAt }} {{ contest.finishAt }}</h2>
+  <h2>{{ contest.name }} {{ contest.date }} {{ contest.startAt }}-{{ contest.finishAt }}</h2>
 
   <div class="buttons-spacing">
-  <div>
+    <div *ngIf="user">
+      <p>Powrót</p>
+      <button mat-raised-button color="link" routerLink="/contests">Powrót</button>
+    </div>
+  <div *ngIf="user">
     <p>Edytuj zawody</p>
     <button mat-raised-button color="primary" (click)="openEditDialog()">Edytuj</button>
   </div>
-  <div>
+  <div *ngIf="user">
     <p>Usuń zawody</p>
     <button mat-raised-button color="warn" (click)="openDeleteDialog()">Usuń</button>
   </div>

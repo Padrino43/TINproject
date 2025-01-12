@@ -1,9 +1,9 @@
 const bodyParser = require('body-parser');
-const mysql = require('mysql2');
 const cors = require('cors');
 const express = require('express');
-const { getContest, getContests, getContestsAllInfo, getContestAllInfo, postContest, deleteContest, editContest} = require("../controllers/contestController");
-const {getUsers, addUser} = require("../controllers/userController");
+const { getContest, getContests, postContest, deleteContest, editContest } = require("../controllers/contestController");
+const { getUsers, addUser } = require("../controllers/userController");
+const {getContestants, getContestant, editContestant, deleteContestant, postContestant} = require("../controllers/contestantController");
 const app = express();
 
 
@@ -16,13 +16,14 @@ app.use(cors({
     exposedHeaders: ['X-Total-Count']
 }));
 
-// async function test(){
-//     const result = await getContest(15);
-//     const results = await getContests();
-//     const resultsAll = await getContestsAllInfo();
-//     const resultAll = await getContestAllInfo(1);
-//     console.log(resultAll);
-// }
+app.get("/users", async (req, res) => {
+    let users  = await getUsers();
+    res.json(users);
+});
+app.post("/users", async (req, res) => {
+    let user  = await addUser(req.body);
+    res.json(user);
+});
 
 
 
@@ -47,43 +48,43 @@ app.put("/contests/:id", async (req, res) => {
 });
 app.delete("/contests/:id", async (req, res) => {
     let { id }  = req.params;
-    let contest  = await deleteContest(id);
+    await deleteContest(id);
+    res.json({}).status(200)
+});
+
+
+
+app.get("/contestants", async (req, res) => {
+    let [contestant, total]  = await getContestants(req);
+    res.header('X-Total-Count', total);
+    res.json(contestant);
+});
+app.get("/contestants/:id", async (req, res) => {
+    let { id }  = req.params;
+    let [contest]  = await getContestant(id);
+    res.json(contest);
+});
+app.post("/contestants", async (req, res) => {
+    let contest  = await postContestant(req.body);
+    res.send(contest);
+});
+app.put("/contestants/:id", async (req, res) => {
+    let { id }  = req.params;
+    let [contest]  = await editContestant(id, req.body);
+    res.json(contest);
+});
+app.delete("/contestants/:id", async (req, res) => {
+    let { id }  = req.params;
+    await deleteContestant(id);
+    res.json({}).status(200)
 });
 
 
 
 
-
-
-app.get("/users", async (req, res) => {
-    let users  = await getUsers();
-    res.json(users);
-});
-app.post("/users", async (req, res) => {
-    let user  = await addUser(req.body);
-    res.json(user);
-});
-// app.get("/gunrange/new", async (req, res) => {
-//   res.render('addGun');
-// });
-// app.post("/gunrange", async (req, res) => {
-//   const { manufacturer, model, country} = await req.body;
-//   let addedId = await addGun(manufacturer, model, country);
-//   res.redirect(`/guns/${addedId}`);
-// });
-// app.get("/gunrange/:id", async (req, res) => {
-//   const { id } = await req.params;
-//   let gun = await getGun(id);
-//   if(gun !== null)
-//     res.render("gunDetails", { gun });
-//   else
-//     res.redirect("/guns");
-// });
 app.get('*', async (req, res) => {
-    res.json();
+    res.json({});
 });
-
-
 app.listen( 3000, () => {
     console.log("http://localhost:3000");
 });

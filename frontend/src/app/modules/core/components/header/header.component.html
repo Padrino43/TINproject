@@ -1,6 +1,7 @@
 <nav>
   <mat-toolbar color="primary">
-    <span>PJSS</span>
+    <span *ngIf="!user">PJSS</span>
+    <span *ngIf="user">Witaj, {{ user.email.split("@")[0] }}</span>
     <span class="spacer"></span>
     <button mat-button routerLink="/">Strona główna</button>
     <button mat-button routerLink="/contests">Zawody</button>

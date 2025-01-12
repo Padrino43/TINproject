@@ -73,7 +73,6 @@ async function editContest(id, body) {
     try {
     const [total] = await db.query('UPDATE Contests SET name=?,startAt=?,finishAt=? WHERE id=?',
         [nameC, startC, finishC, id]);
-        console.log(total);
     return await getContest(id);
     } catch (err) {
         console.log(err);
@@ -84,7 +83,8 @@ async function editContest(id, body) {
 async function deleteContest(id) {
     const db = await mysql.createConnection(mySqlCredentials);
     try {
-        const [result] = await db.query('DELETE FROM Contests WHERE id=?', [id]);
+        await db.query('DELETE FROM Contestant WHERE contest=?', [id]);
+        await db.query('DELETE FROM Contests WHERE id=?', [id]);
     } catch (err) {
         console.log(err);
     } finally {

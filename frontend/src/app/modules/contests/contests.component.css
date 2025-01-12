@@ -1,3 +1,12 @@
 *, body {
   background-color: rgba(0, 0, 0, 1);
 }
+.contest-form-wrapper {
+  background-color: rgba(0, 0, 0, 1);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  max-width: 500px;
+  margin: 0 auto;
+  flex: 1;
+}

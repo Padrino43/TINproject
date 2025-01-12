@@ -10,7 +10,6 @@ import { MatIconButton, MatButton } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatLabel, MatError, MatSuffix } from '@angular/material/form-field';
-import {randomBytes} from "node:crypto";
 
 @Component({
     selector: 'app-register',
@@ -39,6 +38,7 @@ export class RegisterComponent {
         Validators.email,
         Validators.minLength(5),
         Validators.maxLength(40),
+        Validators.required
       ],
       nonNullable: true,
     }),

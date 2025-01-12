@@ -77,7 +77,6 @@ export class ContestService {
       .pipe(
         map(
           ({ id, name, startAt, finishAt }) => {
-            console.log({ id, name, startAt, finishAt } );
             let [date, fromTime] = startAt.split('T');
             let [fromHours, fromMinutes] = fromTime.split(':');
             startAt = `${fromHours}:${fromMinutes}`;
@@ -131,7 +130,7 @@ export class ContestService {
       );
   }
 
-  deleteClient(id: number): Observable<Record<string, never>> {
+  deleteContest(id: number): Observable<Record<string, never>> {
     return this.http.delete<Record<string, never>>(
       `${this.apiUrl}/contests/${id}`,
     );

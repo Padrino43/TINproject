@@ -7,7 +7,7 @@
         <input matInput placeholder="test@test.com" minlength="5" maxlength="40" required [(ngModel)]="userData.email" name="email">
       </mat-form-field>
     </div>
-    <ng-container *ngIf="f.controls?.['email']?.invalid && !f.controls?.['email']?.untouched && f.controls?.['email']?.dirty">
+    <ng-container *ngIf="f.controls?.['email']?.invalid && !f.controls?.['email']?.untouched">
       <app-alert *ngIf="f.controls?.['email']?.errors" [text]="'Email musi zawierac od 5 do 40 znakow.'"></app-alert>
     </ng-container>
     <div>

@@ -37,12 +37,12 @@ export class DeleteContestDialogComponent implements OnInit {
   }
 
   onDelete() {
-    this.contestService.deleteClient(this.contest.id).subscribe({
+    this.contestService.deleteContest(this.contest.id).subscribe({
       next: () => {
         this.dialogRef.close();
         this.router.navigate(['/contests']);
       },
-      error: (err) => {
+      error: () => {
         this.errorMessage = 'Wystąpił błąd.';
       },
     });

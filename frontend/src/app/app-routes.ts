@@ -1,5 +1,4 @@
-import { Routes } from '@angular/router';
-import { authLoadGuard } from './modules/core/guards/auth-load.guard';
+import {Routes} from '@angular/router';
 
 export const APP_ROUTES: Routes = [
   {
@@ -11,6 +10,10 @@ export const APP_ROUTES: Routes = [
     path: 'contests',
     loadChildren: () =>
       import('./modules/contests/routes').then((m) => m.ROUTES_CONTESTS),
-    canLoad: [authLoadGuard],
+  },
+  {
+    path: 'contestants',
+    loadChildren: () =>
+      import('./modules/contestants/routes').then((m) => m.ROUTES_CONTESTANTS),
   },
 ];

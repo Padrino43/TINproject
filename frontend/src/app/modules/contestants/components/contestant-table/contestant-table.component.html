@@ -1,5 +1,5 @@
 <section class="mt-4">
-  <h2>ZAWODY</h2>
+  <h2>ZAWODNICY</h2>
   <mat-form-field>
     <mat-label>Filtrowanie:</mat-label>
     <input matInput [formControl]="filterValue" placeholder="Wpisz frazę" #input>
@@ -14,29 +14,24 @@
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Imię </th>
         <td mat-cell *matCellDef="let row"> {{row.name}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Data </th>
-        <td mat-cell *matCellDef="let row"> {{row.date}} </td>
+      <ng-container matColumnDef="surname">
+        <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
+        <td mat-cell *matCellDef="let row"> {{row.surname}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="startAt">
-        <th mat-header-cell *matHeaderCellDef> Od </th>
-        <td mat-cell *matCellDef="let row"> {{row.startAt}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="finishAt">
-        <th mat-header-cell *matHeaderCellDef> Do </th>
-        <td mat-cell *matCellDef="let row"> {{row.finishAt}} </td>
+      <ng-container matColumnDef="startingDate">
+        <th mat-header-cell *matHeaderCellDef> Data rozpoczęcia </th>
+        <td mat-cell *matCellDef="let row"> {{row.startingDate}} </td>
       </ng-container>
 
       <ng-container matColumnDef="buttons">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let row">
-          <button color="primary" mat-raised-button [routerLink]="'/contests/' + row.id">Szczegóły</button>
+          <button color="primary" mat-raised-button [routerLink]="'/contestants/' + row.id">Szczegóły</button>
         </td>
       </ng-container>
 

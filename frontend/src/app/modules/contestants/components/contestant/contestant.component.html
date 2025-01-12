@@ -1,0 +1,18 @@
+<div class="contest-content" *ngIf="contestant">
+  <h2>{{ contestant.name}} {{ contestant.surname }} {{ contestant.startingDate }}</h2>
+
+  <div class="buttons-spacing">
+    <div *ngIf="user">
+      <p>Powrót</p>
+      <button mat-raised-button color="link" routerLink="/contestants">Powrót</button>
+    </div>
+    <div *ngIf="user">
+      <p>Edytuj zawodnika</p>
+      <button mat-raised-button color="primary" (click)="openEditDialog()">Edytuj</button>
+    </div>
+    <div *ngIf="user">
+      <p>Usuń zawodnika</p>
+      <button mat-raised-button color="warn" (click)="openDeleteDialog()">Usuń</button>
+    </div>
+  </div>
+</div>

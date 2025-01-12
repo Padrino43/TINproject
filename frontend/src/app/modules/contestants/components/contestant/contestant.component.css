@@ -1,0 +1,38 @@
+.contest-form-wrapper{
+  max-width: 600px;
+  margin: 0 auto;
+}
+.contest-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 88vh;
+  padding-top: 100px;
+}
+
+.contest-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.buttons-spacing {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.buttons-spacing div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttons-spacing p {
+  margin: 0 0 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+}
