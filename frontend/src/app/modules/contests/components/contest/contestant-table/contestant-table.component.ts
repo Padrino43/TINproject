@@ -25,6 +25,9 @@ import {
 } from "../edit-contestant-points-dialog/edit-contestant-points-dialog.component";
 import {Contest} from "../../../../core/models/contest.model";
 import {ContestService} from "../../../../core/services/contest.service";
+import {AuthService} from "../../../../core/services/auth.service";
+import {User} from "../../../../core/models/user.model";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-contestant-table',
@@ -48,32 +51,29 @@ import {ContestService} from "../../../../core/services/contest.service";
     ReactiveFormsModule,
     HighlightDirective,
     MatNoDataRow,
-    MatHeaderCellDef
+    MatHeaderCellDef,
+    NgIf
   ],
   templateUrl: './contestant-table.component.html',
   styleUrl: './contestant-table.component.css',
   standalone: true,
 })
 export class ContestantTableComponent implements AfterViewInit, OnDestroy{
-  displayedColumns: string[] = [
-    'lp',
-    'name',
-    'surname',
-    'score',
-    'editButton',
-    'deleteButton',
-  ]
+  displayedColumns!: string[];
   dataSource!: MatTableDataSource<Contestant>;
   totalCount = 0;
   filterValue = new FormControl('', { nonNullable: true });
   sub = new Subscription();
   contest!: Contest;
+  user!: User | null;
+  userSub!: Subscription;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Input() contestId!: number;
 
   constructor(
+    private authService: AuthService,
     private contestantService: ContestantService,
     private contestService: ContestService,
     private dialog: MatDialog
@@ -122,6 +122,30 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
           this.applyFilter(val);
         }),
     );
+
+    this.userSub = this.authService.user.subscribe({
+      next: (value) => {
+        this.user = value;
+        if (this.user !== null) {
+          this.displayedColumns = [
+            'lp',
+            'name',
+            'surname',
+            'score',
+            'editButton',
+            'deleteButton',
+          ];
+        }
+        else {
+          this.displayedColumns = [
+            'lp',
+            'name',
+            'surname',
+            'score',
+          ];
+        }
+      }
+    })
   }
     applyFilter(val: string) {
       const pageIndex = this.paginator.pageIndex + 1;
@@ -144,7 +168,6 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
     }
 
     onEdit(row: Contestant){
-      console.log()
       this.dialog.open(EditContestantPointsDialogComponent, {
         data: {
           contest: this.contest,
@@ -154,8 +177,6 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
         maxWidth: '600px',
         height: '600px',
       });
-      // this.contestantService.putContestantPoints(id).subscribe(
-      //   ()=> {this.ngAfterViewInit();});
     }
 
   onDelete(id: number) {

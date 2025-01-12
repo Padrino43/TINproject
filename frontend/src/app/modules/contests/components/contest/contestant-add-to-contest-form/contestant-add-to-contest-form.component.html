@@ -7,7 +7,7 @@
     </div>
     <mat-form-field *ngIf="contestants">
       <mat-label>Zawodnik</mat-label>
-      <mat-select [placeholder]="contestant.surname" [formControl]="myForm.controls.contestant" [disabled]="editMode"  required>
+      <mat-select [formControl]="myForm.controls.contestant" [required]="!editMode" [disabled]="editMode"  required>
         <mat-option *ngFor="let contestant of contestants" [value]="contestant.id" [disabled]="editMode">
           {{ contestant.surname }}
         </mat-option>
