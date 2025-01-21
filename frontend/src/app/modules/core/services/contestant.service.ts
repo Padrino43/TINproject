@@ -216,9 +216,15 @@ export class ContestantService {
       );
   }
 
-  deleteContestantFromContest(id: number): Observable<Record<string, never>> {
+  deleteContestantFromContest(id: number, contestId: number): Observable<Record<string, never>> {
+    const data = {
+      contestId: contestId,
+    }
     return this.http.delete<Record<string, never>>(
       `${this.apiUrl}/contestant/${id}`,
+      {
+        body: data,
+      }
     );
   }
 }

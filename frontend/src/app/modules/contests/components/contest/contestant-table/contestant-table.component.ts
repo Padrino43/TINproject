@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
   MatCell,
   MatCellDef,
@@ -16,10 +16,8 @@ import {ContestantService} from "../../../../core/services/contestant.service";
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {RouterLink} from "@angular/router";
 import {HighlightDirective} from "../../../../shared/directives/highlight.directive";
 import {MatDialog} from "@angular/material/dialog";
-import {EditContestDialogComponent} from "../edit-contest-dialog/edit-contest-dialog.component";
 import {
   EditContestantPointsDialogComponent
 } from "../edit-contestant-points-dialog/edit-contestant-points-dialog.component";
@@ -27,7 +25,6 @@ import {Contest} from "../../../../core/models/contest.model";
 import {ContestService} from "../../../../core/services/contest.service";
 import {AuthService} from "../../../../core/services/auth.service";
 import {User} from "../../../../core/models/user.model";
-import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-contestant-table',
@@ -52,13 +49,12 @@ import {NgIf} from "@angular/common";
     HighlightDirective,
     MatNoDataRow,
     MatHeaderCellDef,
-    NgIf
   ],
   templateUrl: './contestant-table.component.html',
   styleUrl: './contestant-table.component.css',
   standalone: true,
 })
-export class ContestantTableComponent implements AfterViewInit, OnDestroy{
+export class ContestantTableComponent implements OnInit, AfterViewInit, OnDestroy{
   displayedColumns!: string[];
   dataSource!: MatTableDataSource<Contestant>;
   totalCount = 0;
@@ -78,6 +74,32 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
     private contestService: ContestService,
     private dialog: MatDialog
   ) {}
+
+  ngOnInit(): void {
+    this.userSub = this.authService.user.subscribe({
+      next: (value) => {
+        this.user = value;
+        if (this.user !== null) {
+          this.displayedColumns = [
+            'lp',
+            'name',
+            'surname',
+            'score',
+            'editButton',
+            'deleteButton',
+          ];
+        }
+        else {
+          this.displayedColumns = [
+            'lp',
+            'name',
+            'surname',
+            'score',
+          ];
+        }
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -122,30 +144,6 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
           this.applyFilter(val);
         }),
     );
-
-    this.userSub = this.authService.user.subscribe({
-      next: (value) => {
-        this.user = value;
-        if (this.user !== null) {
-          this.displayedColumns = [
-            'lp',
-            'name',
-            'surname',
-            'score',
-            'editButton',
-            'deleteButton',
-          ];
-        }
-        else {
-          this.displayedColumns = [
-            'lp',
-            'name',
-            'surname',
-            'score',
-          ];
-        }
-      }
-    })
   }
     applyFilter(val: string) {
       const pageIndex = this.paginator.pageIndex + 1;
@@ -180,7 +178,7 @@ export class ContestantTableComponent implements AfterViewInit, OnDestroy{
     }
 
   onDelete(id: number) {
-    this.contestantService.deleteContestantFromContest(id).subscribe(
+    this.contestantService.deleteContestantFromContest(id, this.contestId).subscribe(
       ()=> {this.ngAfterViewInit();});
     }
 

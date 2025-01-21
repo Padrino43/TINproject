@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AlertComponent} from "../../../../shared/components/alert/alert.component";
 import {
   AbstractControl,
@@ -77,6 +77,7 @@ export class ContestantAddToContestFormComponent implements OnInit{
     private contestantService: ContestantService,
     private router: Router,
     private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -91,21 +92,17 @@ export class ContestantAddToContestFormComponent implements OnInit{
     this.contestantService.getContestantsForForm().subscribe({
       next: (contestants) => {
         this.contestants = contestants;
-      },
-      error: () => {
-        console.error();
-      },
+        this.cdr.detectChanges();
+      }
     });
   }
 
   onAddContest() {
     let temp = this.myForm.getRawValue();
     if (this.editMode) {
-      console.log("DUADUAUDA")
       const personDetails = {
         score: temp.score
       }
-      console.log(personDetails)
 
       this.contestantService
           .putContestantForForm(personDetails, this.contest.id)

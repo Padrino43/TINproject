@@ -22,7 +22,7 @@
     <ng-container *ngIf="f.controls?.['password']?.invalid && (!f.controls?.['password']?.untouched || f.controls?.['password']?.dirty)">
       <app-alert *ngIf="f.controls?.['password']?.errors" [text]="'Haslo nie moze byc puste.'"></app-alert>
     </ng-container>
-    <div class="d-flex justify-content-end">
+    <div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!f.valid">Zaloguj się</button>
     </div>
     <div>

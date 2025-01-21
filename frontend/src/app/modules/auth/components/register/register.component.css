@@ -7,3 +7,15 @@
 div {
   padding: 10px 0 10px 0;
 }
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+button[disabled] {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}

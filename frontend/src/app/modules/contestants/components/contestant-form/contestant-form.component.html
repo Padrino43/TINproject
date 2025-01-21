@@ -23,15 +23,7 @@
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="controls.startingDate.invalid">{{ getErrorMessage(controls.startingDate) }}</mat-error>
       </mat-form-field>
-<!--      <mat-form-field>-->
-<!--        <mat-label>Data</mat-label>-->
-<!--        <input matInput formControlName="startingDate" [matDatepicker]="picker">-->
-<!--        <mat-datepicker #picker></mat-datepicker>-->
-<!--        <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>-->
-<!--        <mat-error *ngIf="controls.startingDate.invalid">{{ getErrorMessage(controls.startingDate) }}</mat-error>-->
-<!--      </mat-form-field>-->
     </div>
-
 
     <div class="d-flex justify-content-end">
       <button *ngIf="editMode" mat-raised-button color="warn" (click)="emitCloseDialog()" type="button">Anuluj</button>

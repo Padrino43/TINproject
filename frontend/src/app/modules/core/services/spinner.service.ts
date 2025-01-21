@@ -9,7 +9,6 @@ export class SpinnerService {
 
   showSpinner() {
     this.isLoading.next(true);
-    console.clear();
   }
   hide() {
     this.isLoading.next(false);

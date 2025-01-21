@@ -99,7 +99,8 @@ app.delete("/contestants/:id", async (req, res) => {
 
 app.delete("/contestant/:id", async (req, res) => {
     let { id }  = req.params;
-    await deleteContestantFromContest(id);
+    let { contestId } = req.body
+    await deleteContestantFromContest(id, contestId);
     res.json({}).status(200)
 });
 app.post("/contestant", async (req, res) => {

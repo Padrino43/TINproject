@@ -3,12 +3,13 @@
   <form [formGroup]="myForm" (ngSubmit)="onAddContest()">
     <div *ngIf="contest">
       <h4>{{ contest.name }}</h4>
-      <p> {{ contest.date }} {{ contest.startAt }} - {{ contest.finishAt }}</p>
+      <p>{{ contest.date }} {{ contest.startAt }} - {{ contest.finishAt }}</p>
     </div>
+
     <mat-form-field *ngIf="contestants">
       <mat-label>Zawodnik</mat-label>
-      <mat-select [formControl]="myForm.controls.contestant" [required]="!editMode" [disabled]="editMode"  required>
-        <mat-option *ngFor="let contestant of contestants" [value]="contestant.id" [disabled]="editMode">
+      <mat-select formControlName="contestant" required>
+        <mat-option *ngFor="let contestant of contestants" [value]="contestant.id">
           {{ contestant.surname }}
         </mat-option>
       </mat-select>
@@ -16,13 +17,16 @@
 
     <mat-form-field floatLabel="always">
       <mat-label>Zmieniona liczba punktow</mat-label>
-      <input required matInput [formControl]="myForm.controls.score" type="number" min="0" max="100" />
+      <input matInput formControlName="score" type="number" min="0" max="100" required />
     </mat-form-field>
 
     <div class="d-flex justify-content-end">
       <button *ngIf="editMode" mat-raised-button color="warn" (click)="emitCloseDialog()" type="button">Anuluj</button>
-      <button mat-raised-button color="primary" class="mx-1" type="submit" [disabled]="myForm.invalid">{{ editMode ? 'Edytuj punkty' : 'Dodaj zawodnika do zawodow' }}</button>
+      <button mat-raised-button color="primary" class="mx-1" type="submit" [disabled]="myForm.invalid">
+        {{ editMode ? 'Edytuj punkty' : 'Dodaj zawodnika do zawodow' }}
+      </button>
     </div>
+
     <app-alert *ngIf="errorMessage" [text]="errorMessage"></app-alert>
   </form>
 </div>

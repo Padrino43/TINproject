@@ -153,10 +153,10 @@ async function deleteContestant(id) {
         await db.end();
     }
 }
-async function deleteContestantFromContest(id) {
+async function deleteContestantFromContest(id, contestId) {
     const db = await mysql.createConnection(mySqlCredentials);
     try {
-        await db.query('DELETE FROM Contestant WHERE id=?', [id]);
+        await db.query('DELETE FROM Contestant WHERE id=? AND contest=?', [id, contestId]);
     } catch (err) {
         console.log(err);
     } finally {
